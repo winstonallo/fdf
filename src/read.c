@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/10 22:24:07 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/10 22:50:56 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	y_step /= max;
 	while ((int)(a.x - b.x) || (int)(a.y - b.y))
 	{
-		put_pixel(&data->img, a.y, b.y, 0xffffff);
+		put_pixel(&data->img, a.y, a.x, 0xffffff);
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)
@@ -161,15 +161,20 @@ void	draw_grid(t_point **dots, t_cache *data)
 	int	y;
 	
 	y = 0;
-	while (y < data->height)
+
+	while (y < 10)
 	{
 		x = 0;
 		while (1)
 		{
 			if (dots[y + 1])
+			{
 				draw_line(dots[y][x], dots[y + 1][x], data);	
-			if (!dots[x + 1]->is_last)
+			}
+			if (!dots[y][x + 1].is_last)
+			{
 				draw_line(dots[y][x], dots[y][x + 1], data);
+			}
 			if (dots[y][x].is_last)
 				break ;
 			x++;

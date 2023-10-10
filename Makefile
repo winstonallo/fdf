@@ -6,7 +6,7 @@
 #    By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/06 18:42:13 by abied-ch          #+#    #+#              #
-#    Updated: 2023/10/10 21:02:09 by abied-ch         ###   ########.fr        #
+#    Updated: 2023/10/10 22:35:43 by abied-ch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,13 +33,15 @@ RM = rm -rf
 all: $(OBJ_DIR) $(NAME) 
 
 $(NAME): $(OBJS) $(LIBFT_OBJS)
-	@echo "Compiling..."
+	printf "Compiling libft..."
 	$(MAKE) -C ./libft --no-print-directory
+	printf "\rCompiling fdf.."
+	sleep 0.5
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_OBJS) -o $(NAME) $(LDFLAGS)
-	@echo "\n\nCompiling completed."
+	printf "\rCompiling completed.\n"
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -50,11 +52,9 @@ $(OBJ_DIR)/%.o: libft/src/%.c | $(OBJ_DIR)
 clean:
 	$(MAKE) -C ./libft --no-print-directory fclean
 	$(RM) $(OBJ_DIR)
-	@echo "Object files removed.\n"
 
 fclean: clean
 	$(RM) $(NAME)
-	@echo "Binary file removed.\n"
 
 re: fclean all
 
