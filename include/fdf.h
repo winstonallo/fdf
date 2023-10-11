@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 13:06:10 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 20:39:35 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,8 @@ int		find_coordinates(t_cache *data);
 int		store_map(t_cache *data);
 int		open_map(char *path, t_cache *data);
 void	read_map(char *file_name, t_cache *data);
+void	draw(t_point **dots, t_cache *data);
+int		close_window(t_cache *data);
+void	free_structs(t_point **dots);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 19:20:39 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 20:46:26 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,25 +125,42 @@ void	initialize_cache(t_cache *data)
 	data->height = 0;
 	data->width = 0;
 }
-
-void	put_pixel(t_cache *data, int x, int y, int color)
+void put_pixel(t_cache *data, int x, int y, int color)
 {
-	char	*dst;
-	int		xx;
-	int		yy;
-	
-	xx = (x - y) * cos(0.8);
-	yy = (x + y) * sin(0.8);
-	dst = data->img.addr + ((int)yy * data->img.l_l + (int)xx * (data->img.bpp / 8));
-	*(unsigned int*)dst = color;
+    char *dst;
+    float angle = 0.6; // Set your desired angle
+
+    // Apply the isometric projection
+    int xx = (x - y) * cos(angle);
+    int yy = (x + y) * sin(angle);
+
+    // Calculate the translation offsets
+    // int x_center_offset = (1920 - 1) / 10;
+    // int y_center_offset = (1080 - 1) / 10;
+
+    // Apply the translation
+    // xx += x_center_offset;
+    // yy += y_center_offset;
+	xx += 700;
+    yy += 0;
+
+    // Check if the transformed coordinates are within bounds
+    if (xx >= 0 && xx < 1920 && yy >= 0 && yy < 1080) {
+        dst = data->img.addr + ((int)yy * data->img.l_l + (int)xx * (data->img.bpp / 8));
+        *(unsigned int *)dst = color;
+    }
 }
+
+
+
+
+
 float mod(float i)
 {
-    if (i < 0) {
+    if (i < 0)
         return -i;
-    } else {
+	else 
         return i;
-    }
 }
 
 void	draw_line(t_point a, t_point b, t_cache *data)
@@ -155,7 +172,7 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	a.x *= 5;
 	a.y *= 5;
 	b.x *= 5;
-	b.y *= 5;
+	b.y *= 5;	// 
 	x_step = b.x - a.x;
 	y_step = b.y - a.y;	
 	if (mod(x_step) > mod(y_step))
@@ -253,7 +270,7 @@ int	main(int argc, char **argv)
 	data.img.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
 	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp, &data.img.l_l, &data.img.endian);
 	draw_grid(data.dots, &data);
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 900, 500);
+	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
 	mlx_hook(data.win_ptr, 2, 1L<<0, close_window, &data);
 	mlx_loop(data.mlx_ptr);
 	free_structs(data.dots);

@@ -6,7 +6,7 @@
 #    By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/06 18:42:13 by abied-ch          #+#    #+#              #
-#    Updated: 2023/10/10 22:35:43 by abied-ch         ###   ########.fr        #
+#    Updated: 2023/10/11 20:46:36 by abied-ch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ OBJ_DIR = obj
 SRC_DIR = src
 
 SRCS = 	${SRC_DIR}/read.c \
+		# ${SRC_DIR}/draw.c \
+		# ${SRC_DIR}/fdf.c \
+		# ${SRC_DIR}/events.c \
 				
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
