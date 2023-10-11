@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 12:34:41 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:05:24 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,13 @@ void print_map(t_point **dots, t_cache *data)
 	}
 }
 
+int	close_window(t_cache *data)
+{
+	mlx_destroy_image(data->mlx_ptr, data->img.img);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_cache			data;
@@ -237,7 +244,6 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (ft_putendl_fd("Error: Invalid number of arguments", 2), -1);
 	initialize_cache(&data);
-	puts("printf");
 	read_map(argv[1], &data);
 	data.mlx_ptr = mlx_init();
 	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "fdf");
@@ -245,11 +251,7 @@ int	main(int argc, char **argv)
 	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp, &data.img.l_l, &data.img.endian);
 	draw_grid(data.dots, &data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
+	mlx_hook(data.win_ptr, 2, 1L<<0, close_window, &data);
 	mlx_loop(data.mlx_ptr);
-	mlx_destroy_image(data.mlx_ptr, data.img.img);
-	mlx_destroy_display(data.mlx_ptr);
-	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
-	free(data.win_ptr);
-	free(data.mlx_ptr);
 	free_structs(data.dots);
 }
