@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 12:07:29 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:34:41 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	float	y_step;
 	int		max;
 
-	a.x *= 9;
-	a.y *= 9;
-	b.x *= 9;
-	b.y *= 9;
+	a.x *= 5;
+	a.y *= 5;
+	b.x *= 5;
+	b.y *= 5;
 	x_step = b.x - a.x;
 	y_step = b.y - a.y;	
 	if (mod(x_step) > mod(y_step))
@@ -175,10 +175,12 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 			put_pixel(&data->img, a.x, a.y, 0xD3F18E);
 		else if (a.z == 5)
 			put_pixel(&data->img, a.x, a.y, 0x93D413);
-		else if (a.z >= 6)
+		else if (a.z == 6)
 			put_pixel(&data->img, a.x, a.y, 0xB47A85);
-		else if (a.z >= 9)
-			put_pixel(&data->img, a.x, a.y, 0xE87B06);												
+		else if (a.z >= 7)
+			put_pixel(&data->img, a.x, a.y, 0xE87B06);
+		else if (a.z >= 8)
+			put_pixel(&data->img, a.x, a.y, 0xFF0000);												
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)
@@ -199,12 +201,10 @@ void	draw_grid(t_point **dots, t_cache *data)
 		{
 			if (dots[y + 1])
 			{
-				printf("%2d,%2d | %2d, %2d\n", x, y, x, y +1);
 				draw_line(dots[y][x], dots[y + 1][x], data);
 			}
-			if (!dots[y][x].is_last)
+			if (x < data->width - 1)
 			{
-				printf("%2d,%2d | %2d, %2d\n", x, y, x + 1, y);
 				draw_line(dots[y][x], dots[y][x + 1], data);
 			}
 			x++;
