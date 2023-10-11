@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/10 18:51:19 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 10:31:00 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_cache
 	int				**int_map;
 	int				width;
 	int				height;
+	int				height_as_well;
 	int				map_fd;
 	void			*mlx_ptr;
 	void			*win_ptr;

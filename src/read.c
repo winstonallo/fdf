@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/10 22:57:54 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:07:29 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,25 @@ void	get_measurements(char *line, t_cache *data)
 	}
 }
 
+void	free_structs(t_point **dots)
+{
+	int	i;
+	
+	i = 0;
+	while (dots[i])
+	{
+		free(dots[i]);
+		i++;
+	}
+	free(dots);
+}
+
 t_point	**memory_allocate(char *file_name, t_cache *data)
 {
 	t_point	**new;
 	char	*line;
 	int		i;
+	int		height;
 	
 	if ((data->map_fd = open(file_name, O_RDONLY, 0)) <= 0)
 		perror("Could not open map");
@@ -74,12 +88,13 @@ t_point	**memory_allocate(char *file_name, t_cache *data)
 	}
 	free(line);
 	new = (t_point **)malloc(sizeof(t_point *) * (++data->height + 1));
-	while (data->height > 0)
+	height = data->height;
+	while (height > 0)
 	{
-		new[--data->height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
+		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
 		i = -1;
 		while (++i < data->width)
-			new[data->height][i].is_last = 1;
+			new[height][i].is_last = 1;
 	}	
 	close(data->map_fd);
 	return (new);
@@ -91,6 +106,7 @@ void	read_map(char *file_name, t_cache *data)
 	char	*line;
 
 	data->dots = memory_allocate(file_name, data);
+
 	data->map_fd = open(file_name, O_RDONLY, 0);
 	y = 0;
 	while (get_next_line(data->map_fd, &line) > 0)
@@ -133,10 +149,10 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	float	y_step;
 	int		max;
 
-	a.x *= 50;
-	a.y *= 50;
-	b.x *= 50;
-	b.y *= 50;
+	a.x *= 9;
+	a.y *= 9;
+	b.x *= 9;
+	b.y *= 9;
 	x_step = b.x - a.x;
 	y_step = b.y - a.y;	
 	if (mod(x_step) > mod(y_step))
@@ -147,10 +163,22 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	y_step /= max;
 	while ((int)(a.x - b.x) || (int)(a.y - b.y))
 	{
-		if (a.z == 0)
-			put_pixel(&data->img, a.y, a.x, 0xffffff);
-		else
-			put_pixel(&data->img, a.y, a.x, 0xFF0000);
+		if (a.z <= 0)
+			put_pixel(&data->img, a.x, a.y, 0xffffff);
+		else if (a.z == 1)
+			put_pixel(&data->img, a.x, a.y, 0xFF0000);
+		else if (a.z == 2)
+			put_pixel(&data->img, a.x, a.y, 0x1C8D30);
+		else if (a.z == 3)
+			put_pixel(&data->img, a.x, a.y, 0x3D34A2);
+		else if (a.z == 4)
+			put_pixel(&data->img, a.x, a.y, 0xD3F18E);
+		else if (a.z == 5)
+			put_pixel(&data->img, a.x, a.y, 0x93D413);
+		else if (a.z >= 6)
+			put_pixel(&data->img, a.x, a.y, 0xB47A85);
+		else if (a.z >= 9)
+			put_pixel(&data->img, a.x, a.y, 0xE87B06);												
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)
@@ -164,25 +192,41 @@ void	draw_grid(t_point **dots, t_cache *data)
 	int	y;
 	
 	y = 0;
-
-	while (y < 11)
+	while (y < data->height)
 	{
 		x = 0;
-		while (1)
+		while (x < data->width)
 		{
 			if (dots[y + 1])
 			{
-				draw_line(dots[y][x], dots[y + 1][x], data);	
+				printf("%2d,%2d | %2d, %2d\n", x, y, x, y +1);
+				draw_line(dots[y][x], dots[y + 1][x], data);
 			}
-			if (!dots[y][x + 1].is_last)
+			if (!dots[y][x].is_last)
 			{
+				printf("%2d,%2d | %2d, %2d\n", x, y, x + 1, y);
 				draw_line(dots[y][x], dots[y][x + 1], data);
 			}
-			if (dots[y][x].is_last)
-				break ;
 			x++;
 		}
 		y++;
+	}
+}
+
+void print_map(t_point **dots, t_cache *data)
+{
+	int i = 0;
+	int j;
+	while (i < data->height)
+	{
+		j = 0;
+		while (j < data->width)
+		{
+			printf("%3d", dots[i][j].z);
+			j++;
+		}
+		printf("\n");
+		i++;
 	}
 }
 
@@ -193,6 +237,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (ft_putendl_fd("Error: Invalid number of arguments", 2), -1);
 	initialize_cache(&data);
+	puts("printf");
 	read_map(argv[1], &data);
 	data.mlx_ptr = mlx_init();
 	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "fdf");
@@ -201,4 +246,10 @@ int	main(int argc, char **argv)
 	draw_grid(data.dots, &data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
 	mlx_loop(data.mlx_ptr);
+	mlx_destroy_image(data.mlx_ptr, data.img.img);
+	mlx_destroy_display(data.mlx_ptr);
+	mlx_destroy_window(data.mlx_ptr, data.win_ptr);
+	free(data.win_ptr);
+	free(data.mlx_ptr);
+	free_structs(data.dots);
 }
