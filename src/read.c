@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 13:05:24 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 19:20:39 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,14 +126,17 @@ void	initialize_cache(t_cache *data)
 	data->width = 0;
 }
 
-void	put_pixel(t_image_data *data, int x, int y, int color)
+void	put_pixel(t_cache *data, int x, int y, int color)
 {
 	char	*dst;
-
-	dst = data->addr + (y * data->l_l + x * (data->bpp / 8));
+	int		xx;
+	int		yy;
+	
+	xx = (x - y) * cos(0.8);
+	yy = (x + y) * sin(0.8);
+	dst = data->img.addr + ((int)yy * data->img.l_l + (int)xx * (data->img.bpp / 8));
 	*(unsigned int*)dst = color;
 }
-
 float mod(float i)
 {
     if (i < 0) {
@@ -164,23 +167,23 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	while ((int)(a.x - b.x) || (int)(a.y - b.y))
 	{
 		if (a.z <= 0)
-			put_pixel(&data->img, a.x, a.y, 0xffffff);
+			put_pixel(data, a.x, a.y, 0xffffff);
 		else if (a.z == 1)
-			put_pixel(&data->img, a.x, a.y, 0xFF0000);
+			put_pixel(data, a.x, a.y, 0xFF0000);
 		else if (a.z == 2)
-			put_pixel(&data->img, a.x, a.y, 0x1C8D30);
+			put_pixel(data, a.x, a.y, 0x1C8D30);
 		else if (a.z == 3)
-			put_pixel(&data->img, a.x, a.y, 0x3D34A2);
+			put_pixel(data, a.x, a.y, 0x3D34A2);
 		else if (a.z == 4)
-			put_pixel(&data->img, a.x, a.y, 0xD3F18E);
+			put_pixel(data, a.x, a.y, 0xD3F18E);
 		else if (a.z == 5)
-			put_pixel(&data->img, a.x, a.y, 0x93D413);
+			put_pixel(data, a.x, a.y, 0x93D413);
 		else if (a.z == 6)
-			put_pixel(&data->img, a.x, a.y, 0xB47A85);
+			put_pixel(data, a.x, a.y, 0xB47A85);
 		else if (a.z >= 7)
-			put_pixel(&data->img, a.x, a.y, 0xE87B06);
+			put_pixel(data, a.x, a.y, 0xE87B06);
 		else if (a.z >= 8)
-			put_pixel(&data->img, a.x, a.y, 0xFF0000);												
+			put_pixel(data, a.x, a.y, 0xFF0000);												
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)
@@ -250,7 +253,7 @@ int	main(int argc, char **argv)
 	data.img.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
 	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp, &data.img.l_l, &data.img.endian);
 	draw_grid(data.dots, &data);
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
+	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 900, 500);
 	mlx_hook(data.win_ptr, 2, 1L<<0, close_window, &data);
 	mlx_loop(data.mlx_ptr);
 	free_structs(data.dots);
