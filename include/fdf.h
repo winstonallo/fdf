@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 20:39:35 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 21:02:36 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ typedef struct s_cache
 	t_image_data	img;
 	int				zoom;
 }	t_cache;
-
-
 
 int		main(int argc, char **argv);
 void	free_array(char **arr);

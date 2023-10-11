@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 20:44:16 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 21:04:34 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void put_pixel(t_cache *data, int x, int y, int color)
     // Apply the translation
     // xx += x_center_offset;
     // yy += y_center_offset;
-	xx += 0;
-    yy -= 0;
+	xx += 700;
+    yy += 70;
 
     // Check if the transformed coordinates are within bounds
     if (xx >= 0 && xx < 1920 && yy >= 0 && yy < 1080) {
@@ -117,22 +117,5 @@ void	draw(t_point **dots, t_cache *data)
 			x++;
 		}
 		y++;
-	}
-}
-
-void print_map(t_point **dots, t_cache *data)
-{
-	int i = 0;
-	int j;
-	while (i < data->height)
-	{
-		j = 0;
-		while (j < data->width)
-		{
-			printf("%3d", dots[i][j].z);
-			j++;
-		}
-		printf("\n");
-		i++;
 	}
 }
