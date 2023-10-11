@@ -6,48 +6,46 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 21:04:34 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:00:29 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-void put_pixel(t_cache *data, int x, int y, int color)
+void	put_pixel(t_cache *data, int x, int y, int color)
 {
-    char *dst;
-    float angle = 0.8; // Set your desired angle
+	char	*dst;
+	float	angle;
+	int		yy;
+	int		xx;
 
-    // Apply the isometric projection
-    int xx = (x - y) * cos(angle);
-    int yy = (x + y) * sin(angle);
-
-    // Calculate the translation offsets
-    // int x_center_offset = (1920 - 1) / 10;
-    // int y_center_offset = (1080 - 1) / 10;
-
-    // Apply the translation
-    // xx += x_center_offset;
-    // yy += y_center_offset;
-	xx += 700;
-    yy += 70;
-
-    // Check if the transformed coordinates are within bounds
-    if (xx >= 0 && xx < 1920 && yy >= 0 && yy < 1080) {
-        dst = data->img.addr + ((int)yy * data->img.l_l + (int)xx * (data->img.bpp / 8));
-        *(unsigned int *)dst = color;
-    }
+	angle = 0.55;
+	xx = (x - y) * cos(angle);
+	yy = (x + y) * sin(angle);
+	xx += data->x_offset;
+	yy += data->y_offset;
+	if (xx >= 0 && xx < 1920 && yy >= 0 && yy < 1080)
+	{
+		dst = data->img.addr + ((int)yy * data->img.l_l
+				+ (int)xx * (data->img.bpp / 8));
+		*(unsigned int *)dst = color;
+	}
 }
 
-
-
-
-
-float mod(float i)
+float	mod(float i)
 {
-    if (i < 0)
-        return -i;
-	else 
-        return i;
+	if (i < 0)
+		return (-i);
+	else
+		return (i);
+}
+
+void	zoom(t_cache *data, t_point *a, t_point *b)
+{
+	a->x *= data->zoom;
+	a->y *= data->zoom;
+	b->x *= data->zoom;
+	b->y *= data->zoom;
 }
 
 void	draw_line(t_point a, t_point b, t_cache *data)
@@ -56,12 +54,9 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	float	y_step;
 	int		max;
 
-	// a.x *= 10;
-	// a.y *= 10;
-	// b.x *= 10;
-	// b.y *= 10;	// 
+	zoom(data, &a, &b);
 	x_step = b.x - a.x;
-	y_step = b.y - a.y;	
+	y_step = b.y - a.y;
 	if (mod(x_step) > mod(y_step))
 		max = mod(x_step);
 	else
@@ -72,26 +67,12 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	{
 		if (a.z <= 0)
 			put_pixel(data, a.x, a.y, 0xffffff);
-		else if (a.z == 1)
+		else if (a.z > 0)
 			put_pixel(data, a.x, a.y, 0xFF0000);
-		else if (a.z == 2)
-			put_pixel(data, a.x, a.y, 0x1C8D30);
-		else if (a.z == 3)
-			put_pixel(data, a.x, a.y, 0x3D34A2);
-		else if (a.z == 4)
-			put_pixel(data, a.x, a.y, 0xD3F18E);
-		else if (a.z == 5)
-			put_pixel(data, a.x, a.y, 0x93D413);
-		else if (a.z == 6)
-			put_pixel(data, a.x, a.y, 0xB47A85);
-		else if (a.z >= 7)
-			put_pixel(data, a.x, a.y, 0xE87B06);
-		else if (a.z >= 8)
-			put_pixel(data, a.x, a.y, 0xFF0000);												
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)
-			break;
+			break ;
 	}
 }
 
@@ -99,7 +80,7 @@ void	draw(t_point **dots, t_cache *data)
 {
 	int	x;
 	int	y;
-	
+
 	y = 0;
 	while (y < data->height)
 	{

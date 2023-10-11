@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 21:02:36 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 22:40:21 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define FDF_H
 
 # include "../libft/include/libft.h"
+
+# define ESCAPE 65307
+# define UP 0xFF52
+# define DOWN 0xFF54
+# define LEFT 0xFF51
+# define RIGHT 0xFF53
+# define ZOOM 0xFFAB
+# define DEZOOM 0xFFAD
 
 typedef struct s_point
 {
@@ -43,8 +51,11 @@ typedef struct s_cache
 	void			*win_ptr;
 	void			*img_ptr;
 	t_point			**dots;
+	t_image_data	new_img;
 	t_image_data	img;
 	int				zoom;
+	int				x_offset;
+	int				y_offset;
 }	t_cache;
 
 int		main(int argc, char **argv);
@@ -55,7 +66,7 @@ int		store_map(t_cache *data);
 int		open_map(char *path, t_cache *data);
 void	read_map(char *file_name, t_cache *data);
 void	draw(t_point **dots, t_cache *data);
-int		close_window(t_cache *data);
+int		do_shit(int key, t_cache *data);
 void	free_structs(t_point **dots);
 
 #endif

@@ -10,7 +10,7 @@ SRCS =  $(SRC_DIR)/ft_isalpha.c $(SRC_DIR)/ft_isdigit.c $(SRC_DIR)/ft_isalnum.c 
         $(SRC_DIR)/ft_memcmp.c $(SRC_DIR)/ft_strnstr.c $(SRC_DIR)/ft_atoi.c $(SRC_DIR)/ft_putchar_fd.c $(SRC_DIR)/ft_putstr_fd.c \
         $(SRC_DIR)/ft_putendl_fd.c $(SRC_DIR)/ft_putnbr_fd.c $(SRC_DIR)/ft_strdup.c $(SRC_DIR)/ft_substr.c $(SRC_DIR)/ft_strjoin.c \
         $(SRC_DIR)/ft_strtrim.c $(SRC_DIR)/ft_split.c $(SRC_DIR)/ft_itoa.c $(SRC_DIR)/ft_strmapi.c $(SRC_DIR)/ft_striteri.c $(SRC_DIR)/ft_calloc.c\
-        $(SRC_DIR)/ft_strdup.c $(SRC_DIR)/get_next_line.c $(SRC_DIR)/get_next_line_utils.c $(SRC_DIR)/ft_printf.c \
+        $(SRC_DIR)/ft_strdup.c $(SRC_DIR)/get_next_line.c $(SRC_DIR)/ft_printf.c \
         $(SRC_DIR)/ft_print_adress.c $(SRC_DIR)/ft_putchar_int.c $(SRC_DIR)/ft_putnbr_unsigned_int.c $(SRC_DIR)/ft_putstr_int.c \
         $(SRC_DIR)/ft_puthex_int.c $(SRC_DIR)/ft_putnbr_int.c
 

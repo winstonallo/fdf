@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:14:44 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 21:10:15 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 22:52:44 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ void	initialize_cache(t_cache *data)
 	data->win_ptr = NULL;
 	data->height = 0;
 	data->width = 0;
+	data->x_offset = 0;
+	data->y_offset = 0;
+	data->zoom = 10;
 }
 
-
-void print_map(t_point **dots, t_cache *data)
+void	print_map(t_point **dots, t_cache *data)
 {
-	int i = 0;
-	int j;
+	int	i;
+	int	j;
+
+	i = 0;
 	while (i < data->height)
 	{
 		j = 0;
@@ -51,10 +55,11 @@ int	main(int argc, char **argv)
 	data.mlx_ptr = mlx_init();
 	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "fdf");
 	data.img.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
-	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp, &data.img.l_l, &data.img.endian);
+	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
+			&data.img.l_l, &data.img.endian);
 	draw(data.dots, &data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
-	mlx_hook(data.win_ptr, 2, 1L<<0, close_window, &data);
+	mlx_key_hook(data.win_ptr, do_shit, &data);
 	mlx_loop(data.mlx_ptr);
 	free_structs(data.dots);
 }

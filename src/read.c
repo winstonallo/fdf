@@ -6,13 +6,13 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 21:10:10 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/11 22:55:03 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-int		get_dots_from_line(char *line, t_point **dots, int y)
+int	get_dots_from_line(char *line, t_point **dots, int y)
 {
 	char	**points;
 	int		x;
@@ -44,7 +44,6 @@ void	get_measurements(char *line, t_cache *data)
 	in_number = 0;
 	while (line[i])
 	{
-
 		if (ft_isdigit(line[i]) && !in_number)
 		{
 			in_number = 1;
@@ -56,27 +55,35 @@ void	get_measurements(char *line, t_cache *data)
 	}
 }
 
-void	free_structs(t_point **dots)
+t_point	**allocate(t_cache *data)
 {
-	int	i;
-	
-	i = 0;
-	while (dots[i])
+	t_point	**new;
+	int		height;
+	int		i;
+
+	new = (t_point **)malloc(sizeof(t_point *) * (++data->height + 1));
+	if (!new)
+		return (NULL);
+	height = data->height;
+	while (height > 0)
 	{
-		free(dots[i]);
-		i++;
+		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
+		if (!new[height])
+			return (NULL);
+		i = -1;
+		while (++i < data->width)
+			new[height][i].is_last = 1;
 	}
-	free(dots);
+	return (new);
 }
 
 t_point	**memory_allocate(char *file_name, t_cache *data)
 {
 	t_point	**new;
 	char	*line;
-	int		i;
-	int		height;
-	
-	if ((data->map_fd = open(file_name, O_RDONLY, 0)) <= 0)
+
+	data->map_fd = open(file_name, O_RDONLY, 0);
+	if (data->map_fd <= 0)
 		perror("Could not open map");
 	get_next_line(data->map_fd, &line);
 	get_measurements(line, data);
@@ -87,15 +94,9 @@ t_point	**memory_allocate(char *file_name, t_cache *data)
 		free(line);
 	}
 	free(line);
-	new = (t_point **)malloc(sizeof(t_point *) * (++data->height + 1));
-	height = data->height;
-	while (height > 0)
-	{
-		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
-		i = -1;
-		while (++i < data->width)
-			new[height][i].is_last = 1;
-	}	
+	new = allocate(data);
+	if (!new)
+		return (NULL);
 	close(data->map_fd);
 	return (new);
 }
@@ -106,7 +107,8 @@ void	read_map(char *file_name, t_cache *data)
 	char	*line;
 
 	data->dots = memory_allocate(file_name, data);
-
+	if (!data->dots)
+		exit(EXIT_FAILURE);
 	data->map_fd = open(file_name, O_RDONLY, 0);
 	y = 0;
 	while (get_next_line(data->map_fd, &line) > 0)
