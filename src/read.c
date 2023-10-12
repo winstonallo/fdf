@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 22:55:03 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:16:15 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	get_dots_from_line(char *line, t_point **dots, int y)
 		dots[y][x].z = ft_atoi(points[x]);
 		dots[y][x].x = x;
 		dots[y][x].y = y;
-		dots[y][x].is_last = 0;
 		free(points[x++]);
 	}
 	free(points);
@@ -59,7 +58,6 @@ t_point	**allocate(t_cache *data)
 {
 	t_point	**new;
 	int		height;
-	int		i;
 
 	new = (t_point **)malloc(sizeof(t_point *) * (++data->height + 1));
 	if (!new)
@@ -70,9 +68,6 @@ t_point	**allocate(t_cache *data)
 		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
 		if (!new[height])
 			return (NULL);
-		i = -1;
-		while (++i < data->width)
-			new[height][i].is_last = 1;
 	}
 	return (new);
 }

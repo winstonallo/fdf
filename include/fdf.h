@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 22:40:21 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:15:34 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
-	int	is_last;
+	float	x;
+	float	y;
+	float	z;
 }	t_point;
-
 typedef struct s_image_data
 {
 	void	*img;

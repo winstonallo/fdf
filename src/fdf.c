@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:14:44 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 22:52:44 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:16:36 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_map(t_point **dots, t_cache *data)
 		j = 0;
 		while (j < data->width)
 		{
-			printf("%3d", dots[i][j].z);
+			printf("%3d", (int)dots[i][j].z);
 			j++;
 		}
 		printf("\n");

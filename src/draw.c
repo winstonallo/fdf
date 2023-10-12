@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 23:00:29 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:51:47 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,24 @@ void	zoom(t_cache *data, t_point *a, t_point *b)
 	b->y *= data->zoom;
 }
 
+void	draw_line2(t_point a, t_point b, t_cache *data)
+{
+	float	y_step;
+	int		max;
+
+	zoom(data, &a, &b);
+	y_step = b.y - a.y;
+	max = mod(y_step);
+	y_step /= max;
+	while ((int)(a.z - --b.z))
+	{
+		put_pixel(data, a.x, a.y, 0xffffff);
+		a.y += y_step;
+		if (a.y < 0)
+			break ;
+	}
+}
+
 void	draw_line(t_point a, t_point b, t_cache *data)
 {
 	float	x_step;
@@ -65,10 +83,7 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 	y_step /= max;
 	while ((int)(a.x - b.x) || (int)(a.y - b.y))
 	{
-		if (a.z <= 0)
-			put_pixel(data, a.x, a.y, 0xffffff);
-		else if (a.z > 0)
-			put_pixel(data, a.x, a.y, 0xFF0000);
+		put_pixel(data, a.x, a.y, 0xffffff);
 		a.x += x_step;
 		a.y += y_step;
 		if (a.y < 0 || a.x < 0)

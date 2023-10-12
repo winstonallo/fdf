@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 22:49:38 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:13:50 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	do_shit2(int key, t_cache *data)
 int	do_shit(int key, t_cache *data)
 {
 	if (key == ESCAPE)
+	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		exit(EXIT_SUCCESS);
+	}
 	if (key == RIGHT)
 	{
 		data->x_offset += 20;
