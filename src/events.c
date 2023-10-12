@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 17:39:17 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:34:17 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ int	do_shit2(int key, t_cache *data)
 	if (key == 0x0075)
 	{
 		data->angle -= 0.1;
+		new_image(data);
+	}
+	if (key == 0x0077)
+	{
+		data->altitude -= 10;
+		new_image(data);
+	}
+	if (key == 0x0073)
+	{
+		data->altitude += 10;
 		new_image(data);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 17:34:05 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:25:34 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define RIGHT 65363
 # define ZOOM 65451
 # define DEZOOM 65453
+# define LOWER 
 
 typedef struct s_point
 {
@@ -55,6 +56,7 @@ typedef struct s_cache
 	int				x_offset;
 	int				y_offset;
 	float			angle;
+	int				altitude;
 }	t_cache;
 
 int		main(int argc, char **argv);

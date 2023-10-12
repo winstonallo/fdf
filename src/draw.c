@@ -6,85 +6,13 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 17:41:52 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:50:56 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-// void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
-// {
-// 	char	*dst;
-
-// 	if (x < WIN_WIDTH && x > 0 && y < WIN_HEIGHT && y > 0)
-// 	{
-// 		dst = img->addr + (y * img->line_length + x
-// 				* (img->bits_per_pixel / 8));
-// 		*(unsigned int *)dst = color;
-// 	}
-// }
-
-// void	ft_clear_map(t_vars *vars)
-// {
-// 	vars->temp_y = 0;
-// 	while (vars->temp_y < WIN_HEIGHT)
-// 	{
-// 		vars->temp_x = 0;
-// 		while (vars->temp_x < WIN_WIDTH)
-// 		{
-// 			ft_mlx_pixel_put(vars->img, vars->temp_x, vars->temp_y, GREY);
-// 			vars->temp_x++;
-// 		}
-// 		vars->temp_y++;
-// 	}
-// 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img->img, 0, 0);
-// }
-
-// void	ft_draw_map(t_vars *vars)
-// {
-// 	vars->temp_y = -1;
-// 	while (++vars->temp_y < vars->map_height)
-// 	{
-// 		vars->temp_x = -1;
-// 		while (++vars->temp_x < vars->map_width)
-// 		{
-// 			if (vars->temp_x < vars->map_width - 1)
-// 			{
-// 				vars->x1 = vars->temp_x;
-// 				vars->y1 = vars->temp_y;
-// 				vars->x2 = vars->temp_x + 1;
-// 				vars->y2 = vars->temp_y;
-// 				ft_draw_line(vars, vars->img);
-// 			}
-// 			if (vars->temp_y < vars->map_height - 1)
-// 			{
-// 				vars->x1 = vars->temp_x;
-// 				vars->y1 = vars->temp_y;
-// 				vars->x2 = vars->temp_x;
-// 				vars->y2 = vars->temp_y + 1;
-// 				ft_draw_line(vars, vars->img);
-// 			}
-// 		}
-// 	}
-// }
-
-// void	ft_print_help(t_vars *vars)
-// {
-// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 10, YELLOW,
-// 		"translate: up down left right");
-// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 30, YELLOW,
-// 		"rotate: w s a d");
-// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 50, YELLOW,
-// 		"projection: 1 - 6");
-// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 70, YELLOW,
-// 		"altitude: [ ]");
-// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 90, YELLOW,
-// 		"zoom: < >");
-// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 110, YELLOW,
-// 		"color: c");
-// }
-
-void	put_pixel(t_cache *data, int x, int y, int color)
+void	put_pixel(t_cache *data, int x, int y, float z, int color)
 {
 	char	*dst;
 	int		yy;
@@ -94,6 +22,7 @@ void	put_pixel(t_cache *data, int x, int y, int color)
 	yy = (x + y) * sin(data->angle);
 	xx += data->x_offset;
 	yy += data->y_offset;
+	yy -= z;
 	if (xx >= 0 && xx < 1920 && yy >= 0 && yy < 1080)
 	{
 		dst = data->img.addr + ((int)yy * data->img.l_l
@@ -127,51 +56,64 @@ void	zoom2(t_cache *data, t_point *a)
 	a->z *= data->zoom;
 }
 
-void	draw_line2(t_point a, t_cache *data)
+void	zoom3(t_cache *data, int *x, int *y, int *z)
 {
-	float	y_step;
-	float	b_y;
-
-	zoom2(data, &a);
-	b_y =  a.z + a.y;
-	y_step = b_y - a.y;
-	y_step /= y_step;
-	while ((int)(a.y - b_y))
-	{
-		if (a.z == 0)
-			put_pixel(data, a.x, a.y, 0xffffff);
-		else
-			put_pixel(data, a.x, a.y, 0xFF0000);
-		a.y += y_step;
-		if (a.y < 0 || a.x < 0)
-			break ;
-	}
+	*x *= data->zoom;
+	*y *= data->zoom;
+	*z *= data->zoom;
 }
 
-void	draw_line(t_point a, t_point b, t_cache *data)
+void draw_point(int x, int y, int z, t_cache *data)
 {
-	float	x_step;
-	float	y_step;
-	int		max;
-
-	zoom(data, &a, &b);
-	x_step = b.x - a.x;
-	y_step = b.y - a.y;
-	if (mod(x_step) > mod(y_step))
-		max = mod(x_step);
-	else
-		max = mod(y_step);
-	x_step /= max;
-	y_step /= max;
-	while ((int)(a.x - b.x) || (int)(a.y - b.y))
-	{
-		put_pixel(data, a.x, a.y, 0xffffff);
-		a.x += x_step;
-		a.y += y_step;
-		if (a.y < 0 || a.x < 0)
-			break ;
-	}
+	zoom3(data, &x, &y, &z);
+	z += data->altitude;
+	if (z != 0)
+        put_pixel(data, x, y, z, 0xFF0000); // Use red color for points above sea level
 }
+
+
+void draw_line(t_point a, t_point b, t_cache *data)
+{
+    float x_step;
+    float y_step;
+    int max;
+
+    zoom(data, &a, &b);
+    x_step = b.x - a.x;
+    y_step = b.y - a.y;
+    if (mod(x_step) > mod(y_step))
+        max = mod(x_step);
+    else
+        max = mod(y_step);
+    x_step /= max;
+    y_step /= max;
+
+    // Check if a and b have different altitudes and a is not at sea level
+    if (a.z != 0 && b.z == 0)
+	{
+        while ((int)(a.x - b.x) || (int)(a.y - b.y))
+        {
+            if (a.z != 0)
+                a.z += data->altitude;
+            put_pixel(data, a.x, a.y, a.z, 0xFF0000);
+            a.x += x_step;
+            a.y += y_step;
+            if (a.y < 0 || a.x < 0)
+                break ;
+        }
+    }
+        while ((int)(a.x - b.x) || (int)(a.y - b.y))
+        {
+            if (a.z != 0)
+                a.z += data->altitude;
+            put_pixel(data, a.x, a.y, a.z, 0xFF0000);
+            a.x += x_step;
+            a.y += y_step;
+            if (a.y < 0 || a.x < 0)
+                break ;
+        }
+}
+
 
 void	draw(t_point **dots, t_cache *data)
 {
@@ -187,12 +129,13 @@ void	draw(t_point **dots, t_cache *data)
 			if (dots[y + 1])
 			{
 				draw_line(dots[y][x], dots[y + 1][x], data);
+				draw_point(dots[y][x].x, dots[y][x].y, dots[y][x].z, data);
 			}
 			if (x < data->width - 1)
 			{
 				draw_line(dots[y][x], dots[y][x + 1], data);
+				draw_point(dots[y][x].x, dots[y][x].y, dots[y][x].z, data);
 			}
-			draw_line2(dots[y][x], data);
 			x++;
 		}
 		y++;
