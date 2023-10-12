@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 20:42:55 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 21:15:34 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,20 @@ void draw_line(t_point a, t_point b, t_cache *data)
 	float z_step;
     int max;
 
+	if (a.z != 0)
+		a.z += data->altitude;
+	if (b.z != 0)
+		b.z += data->altitude;
     zoom(data, &a, &b);
     x_step = b.x - a.x;
     y_step = b.y - a.y;
 	z_step = b.z - a.z;
-    if (mod(x_step) > mod(y_step))
+    if (mod(x_step) > mod(y_step) && mod(x_step) > mod(z_step))
         max = mod(x_step);
-    else
+    else if (mod(y_step) > mod(x_step) && mod(y_step) > mod(z_step))
         max = mod(y_step);
+	else
+		max = mod(z_step);
     x_step /= max;
     y_step /= max;
 	z_step /= max; 
@@ -102,10 +108,8 @@ void draw_line(t_point a, t_point b, t_cache *data)
     // Check if a and b have different altitudes and a is not at sea level
     if (a.z != 0 && b.z == 0 && (a.z != 0 && b.z != 0))
 	{
-        while ((int)(a.x - b.x) || (int)(a.y - b.y))
+        while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
         {
-            // if (a.z != 0)
-            //     a.z += data->altitude;
             put_pixel(data, a.x, a.y, a.z, 0xFF0000);
             a.x += x_step;
             a.y += y_step;
@@ -114,10 +118,8 @@ void draw_line(t_point a, t_point b, t_cache *data)
                 break ;
         }
     }
-        while ((int)(a.x - b.x) || (int)(a.y - b.y))
+        while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
         {
-            if (a.z != 0)
-                a.z += data->altitude;
             put_pixel(data, a.x, a.y, a.z, 0xFF0000);
             a.x += x_step;
             a.y += y_step;
