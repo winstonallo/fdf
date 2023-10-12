@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 17:10:04 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:41:52 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,11 @@
 void	put_pixel(t_cache *data, int x, int y, int color)
 {
 	char	*dst;
-	float	angle;
 	int		yy;
 	int		xx;
 
-	angle = 0.55;
-	xx = (x - y) * cos(angle);
-	yy = (x + y) * sin(angle);
+	xx = (x - y) * cos(data->angle);
+	yy = (x + y) * sin(data->angle);
 	xx += data->x_offset;
 	yy += data->y_offset;
 	if (xx >= 0 && xx < 1920 && yy >= 0 && yy < 1080)

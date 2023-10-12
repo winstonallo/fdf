@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:14:44 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 16:16:36 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:42:13 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	initialize_cache(t_cache *data)
 	data->x_offset = 0;
 	data->y_offset = 0;
 	data->zoom = 10;
+	data->angle = 0.6;
 }
 
 void	print_map(t_point **dots, t_cache *data)
