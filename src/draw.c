@@ -6,11 +6,20 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 18:50:56 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:42:55 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
+
+// t_point project_point(t_point p, t_cache *data)
+// {
+//     t_point result;
+//     result.x = (p.x - p.y) * cos(data->angle) + data->x_offset;
+//     result.y = (p.x + p.y) * sin(data->angle) + data->y_offset;
+//     result.z = p.z; // Z coordinate remains the same after projection
+//     return result;
+// }
 
 void	put_pixel(t_cache *data, int x, int y, float z, int color)
 {
@@ -68,36 +77,39 @@ void draw_point(int x, int y, int z, t_cache *data)
 	zoom3(data, &x, &y, &z);
 	z += data->altitude;
 	if (z != 0)
-        put_pixel(data, x, y, z, 0xFF0000); // Use red color for points above sea level
+        put_pixel(data, x, y, z, 0xFF0000);
 }
-
 
 void draw_line(t_point a, t_point b, t_cache *data)
 {
     float x_step;
     float y_step;
+	float z_step;
     int max;
 
     zoom(data, &a, &b);
     x_step = b.x - a.x;
     y_step = b.y - a.y;
+	z_step = b.z - a.z;
     if (mod(x_step) > mod(y_step))
         max = mod(x_step);
     else
         max = mod(y_step);
     x_step /= max;
     y_step /= max;
+	z_step /= max; 
 
     // Check if a and b have different altitudes and a is not at sea level
-    if (a.z != 0 && b.z == 0)
+    if (a.z != 0 && b.z == 0 && (a.z != 0 && b.z != 0))
 	{
         while ((int)(a.x - b.x) || (int)(a.y - b.y))
         {
-            if (a.z != 0)
-                a.z += data->altitude;
+            // if (a.z != 0)
+            //     a.z += data->altitude;
             put_pixel(data, a.x, a.y, a.z, 0xFF0000);
             a.x += x_step;
             a.y += y_step;
+			a.z += z_step;
             if (a.y < 0 || a.x < 0)
                 break ;
         }
@@ -109,11 +121,11 @@ void draw_line(t_point a, t_point b, t_cache *data)
             put_pixel(data, a.x, a.y, a.z, 0xFF0000);
             a.x += x_step;
             a.y += y_step;
+			a.z += z_step;
             if (a.y < 0 || a.x < 0)
                 break ;
         }
 }
-
 
 void	draw(t_point **dots, t_cache *data)
 {
@@ -129,12 +141,10 @@ void	draw(t_point **dots, t_cache *data)
 			if (dots[y + 1])
 			{
 				draw_line(dots[y][x], dots[y + 1][x], data);
-				draw_point(dots[y][x].x, dots[y][x].y, dots[y][x].z, data);
 			}
 			if (x < data->width - 1)
 			{
 				draw_line(dots[y][x], dots[y][x + 1], data);
-				draw_point(dots[y][x].x, dots[y][x].y, dots[y][x].z, data);
 			}
 			x++;
 		}

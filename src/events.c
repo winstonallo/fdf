@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 19:10:54 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:10:59 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int	do_shit(int key, t_cache *data)
 	if (key == ESCAPE)
 	{
 		mlx_destroy_display(data->mlx_ptr);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);		
 		free(data->mlx_ptr);
-		free(data->img_ptr);
 		free_structs(data->dots);
-		exit(EXIT_SUCCESS);
+		
+		exit(0);
 	}
 	if (key == RIGHT)
 	{
