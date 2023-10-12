@@ -6,83 +6,83 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 16:51:47 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:10:04 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
+// void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
+// {
+// 	char	*dst;
 
-	if (x < WIN_WIDTH && x > 0 && y < WIN_HEIGHT && y > 0)
-	{
-		dst = img->addr + (y * img->line_length + x
-				* (img->bits_per_pixel / 8));
-		*(unsigned int *)dst = color;
-	}
-}
+// 	if (x < WIN_WIDTH && x > 0 && y < WIN_HEIGHT && y > 0)
+// 	{
+// 		dst = img->addr + (y * img->line_length + x
+// 				* (img->bits_per_pixel / 8));
+// 		*(unsigned int *)dst = color;
+// 	}
+// }
 
-void	ft_clear_map(t_vars *vars)
-{
-	vars->temp_y = 0;
-	while (vars->temp_y < WIN_HEIGHT)
-	{
-		vars->temp_x = 0;
-		while (vars->temp_x < WIN_WIDTH)
-		{
-			ft_mlx_pixel_put(vars->img, vars->temp_x, vars->temp_y, GREY);
-			vars->temp_x++;
-		}
-		vars->temp_y++;
-	}
-	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img->img, 0, 0);
-}
+// void	ft_clear_map(t_vars *vars)
+// {
+// 	vars->temp_y = 0;
+// 	while (vars->temp_y < WIN_HEIGHT)
+// 	{
+// 		vars->temp_x = 0;
+// 		while (vars->temp_x < WIN_WIDTH)
+// 		{
+// 			ft_mlx_pixel_put(vars->img, vars->temp_x, vars->temp_y, GREY);
+// 			vars->temp_x++;
+// 		}
+// 		vars->temp_y++;
+// 	}
+// 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img->img, 0, 0);
+// }
 
-void	ft_draw_map(t_vars *vars)
-{
-	vars->temp_y = -1;
-	while (++vars->temp_y < vars->map_height)
-	{
-		vars->temp_x = -1;
-		while (++vars->temp_x < vars->map_width)
-		{
-			if (vars->temp_x < vars->map_width - 1)
-			{
-				vars->x1 = vars->temp_x;
-				vars->y1 = vars->temp_y;
-				vars->x2 = vars->temp_x + 1;
-				vars->y2 = vars->temp_y;
-				ft_draw_line(vars, vars->img);
-			}
-			if (vars->temp_y < vars->map_height - 1)
-			{
-				vars->x1 = vars->temp_x;
-				vars->y1 = vars->temp_y;
-				vars->x2 = vars->temp_x;
-				vars->y2 = vars->temp_y + 1;
-				ft_draw_line(vars, vars->img);
-			}
-		}
-	}
-}
+// void	ft_draw_map(t_vars *vars)
+// {
+// 	vars->temp_y = -1;
+// 	while (++vars->temp_y < vars->map_height)
+// 	{
+// 		vars->temp_x = -1;
+// 		while (++vars->temp_x < vars->map_width)
+// 		{
+// 			if (vars->temp_x < vars->map_width - 1)
+// 			{
+// 				vars->x1 = vars->temp_x;
+// 				vars->y1 = vars->temp_y;
+// 				vars->x2 = vars->temp_x + 1;
+// 				vars->y2 = vars->temp_y;
+// 				ft_draw_line(vars, vars->img);
+// 			}
+// 			if (vars->temp_y < vars->map_height - 1)
+// 			{
+// 				vars->x1 = vars->temp_x;
+// 				vars->y1 = vars->temp_y;
+// 				vars->x2 = vars->temp_x;
+// 				vars->y2 = vars->temp_y + 1;
+// 				ft_draw_line(vars, vars->img);
+// 			}
+// 		}
+// 	}
+// }
 
-void	ft_print_help(t_vars *vars)
-{
-	mlx_string_put(vars->mlx, vars->mlx_win, 10, 10, YELLOW,
-		"translate: up down left right");
-	mlx_string_put(vars->mlx, vars->mlx_win, 10, 30, YELLOW,
-		"rotate: w s a d");
-	mlx_string_put(vars->mlx, vars->mlx_win, 10, 50, YELLOW,
-		"projection: 1 - 6");
-	mlx_string_put(vars->mlx, vars->mlx_win, 10, 70, YELLOW,
-		"altitude: [ ]");
-	mlx_string_put(vars->mlx, vars->mlx_win, 10, 90, YELLOW,
-		"zoom: < >");
-	mlx_string_put(vars->mlx, vars->mlx_win, 10, 110, YELLOW,
-		"color: c");
-}
+// void	ft_print_help(t_vars *vars)
+// {
+// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 10, YELLOW,
+// 		"translate: up down left right");
+// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 30, YELLOW,
+// 		"rotate: w s a d");
+// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 50, YELLOW,
+// 		"projection: 1 - 6");
+// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 70, YELLOW,
+// 		"altitude: [ ]");
+// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 90, YELLOW,
+// 		"zoom: < >");
+// 	mlx_string_put(vars->mlx, vars->mlx_win, 10, 110, YELLOW,
+// 		"color: c");
+// }
 
 void	put_pixel(t_cache *data, int x, int y, int color)
 {
@@ -116,24 +116,36 @@ void	zoom(t_cache *data, t_point *a, t_point *b)
 {
 	a->x *= data->zoom;
 	a->y *= data->zoom;
+	a->z *= data->zoom;
 	b->x *= data->zoom;
 	b->y *= data->zoom;
+	b->z *= data->zoom;
 }
 
-void	draw_line2(t_point a, t_point b, t_cache *data)
+void	zoom2(t_cache *data, t_point *a)
+{
+	a->x *= data->zoom;
+	a->y *= data->zoom;
+	a->z *= data->zoom;
+}
+
+void	draw_line2(t_point a, t_cache *data)
 {
 	float	y_step;
-	int		max;
+	float	b_y;
 
-	zoom(data, &a, &b);
-	y_step = b.y - a.y;
-	max = mod(y_step);
-	y_step /= max;
-	while ((int)(a.z - --b.z))
+	zoom2(data, &a);
+	b_y =  a.z + a.y;
+	y_step = b_y - a.y;
+	y_step /= y_step;
+	while ((int)(a.y - b_y))
 	{
-		put_pixel(data, a.x, a.y, 0xffffff);
+		if (a.z == 0)
+			put_pixel(data, a.x, a.y, 0xffffff);
+		else
+			put_pixel(data, a.x, a.y, 0xFF0000);
 		a.y += y_step;
-		if (a.y < 0)
+		if (a.y < 0 || a.x < 0)
 			break ;
 	}
 }
@@ -182,6 +194,7 @@ void	draw(t_point **dots, t_cache *data)
 			{
 				draw_line(dots[y][x], dots[y][x + 1], data);
 			}
+			draw_line2(dots[y][x], data);
 			x++;
 		}
 		y++;
