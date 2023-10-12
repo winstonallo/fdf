@@ -16,12 +16,12 @@
 # include "../libft/include/libft.h"
 
 # define ESCAPE 65307
-# define UP 0xFF52
-# define DOWN 0xFF54
-# define LEFT 0xFF51
-# define RIGHT 0xFF53
-# define ZOOM 0xFFAB
-# define DEZOOM 0xFFAD
+# define UP 65362
+# define DOWN 65364
+# define LEFT 65361
+# define RIGHT 65363
+# define ZOOM 65451
+# define DEZOOM 65453
 
 typedef struct s_point
 {

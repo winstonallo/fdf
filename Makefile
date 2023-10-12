@@ -39,7 +39,7 @@ all: $(OBJ_DIR) $(NAME)
 $(NAME): $(OBJS) $(LIBFT_OBJS)
 	printf "Compiling libft..."
 	$(MAKE) -C ./libft --no-print-directory
-	printf "\rCompiling fdf.."
+	printf "\r\rCompiling fdf.."
 	sleep 0.5
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_OBJS) -o $(NAME) $(LDFLAGS)
 	printf "\rCompiling completed.\n"
