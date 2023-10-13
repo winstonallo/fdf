@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 18:25:34 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:00:09 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	read_map(char *file_name, t_cache *data);
 void	draw(t_point **dots, t_cache *data);
 int		do_shit(int key, t_cache *data);
 void	free_structs(t_point **dots);
+void	write_to_image(t_cache *data, char *str);
 
 #endif

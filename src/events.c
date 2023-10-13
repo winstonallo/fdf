@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 21:17:32 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:02:07 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	do_shit2(int key, t_cache *data)
 {
 	if (key == ZOOM)
 	{
-		data->zoom += 1;
+		data->zoom += 5;
 		new_image(data);
 	}
 	if (key == DEZOOM)
@@ -36,7 +36,7 @@ int	do_shit2(int key, t_cache *data)
 	}
 	if (key == DOWN)
 	{
-		data->y_offset += 20;
+		data->y_offset += 100;
 		new_image(data);
 	}
 	if (key == 0x006F)
@@ -75,20 +75,25 @@ int	do_shit(int key, t_cache *data)
 	}
 	if (key == RIGHT)
 	{
-		data->x_offset += 20;
+		data->x_offset += 100;
 		new_image(data);
 	}
 	if (key == LEFT)
 	{
-		data->x_offset -= 20;
+		data->x_offset -= 100;
 		new_image(data);
 	}
 	if (key == UP)
 	{
-		data->y_offset -= 20;
+		data->y_offset -= 100;
 		new_image(data);
 	}
 	else
 		do_shit2(key, data);
 	return (0);
+}
+
+void write_to_image(t_cache *data, char *str)
+{
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 1000, 500, 0xaaaaaa, str);
 }
