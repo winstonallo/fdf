@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/13 16:28:43 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:40:18 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,26 @@ void draw_line(t_point a, t_point b, t_cache *data)
     }
 }
 
+void print_menu(t_cache *data)
+{
+    char *menu;
+
+    menu = "1: isometric/plane mode; ARROWS: move";
+    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 20, 0xffc589, menu) == 0)
+        printf("Error: Unable to render menu 1\n");
+
+    menu = "AD: Z-scale; NUMPAD +,-: zoom";
+    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 35, 0xffc589, menu) == 0)
+        printf("Error: Unable to render menu 2\n");
+
+    menu = "UO: z-rotation; IK: y-rotation; JL: x-rotation";
+    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 50, 0xffc589, menu) == 0)
+        printf("Error: Unable to render menu 3\n");
+
+    menu = "R: reset image, ESC: exit";
+    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 65, 0xffc589, menu) == 0)
+        printf("Error: Unable to render menu 4\n");
+}
 
 void	draw(t_point **dots, t_cache *data)
 {
@@ -193,5 +213,5 @@ void	draw(t_point **dots, t_cache *data)
 		}
 		y++;
 	}
-	mlx_string_put(data->mlx_ptr, data->win_ptr, 10, 10, 0xffffff, "Hello World");
+	print_menu(data);
 }
