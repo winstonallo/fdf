@@ -49,52 +49,6 @@ void	zoom(t_cache *data, t_point *a, t_point *b)
 	b->z *= data->zoom;
 }
 
-// void draw_line(t_point a, t_point b, t_cache *data)
-// {
-//     float x_step;
-//     float y_step;
-// 	float z_step;
-//     int max;
-
-// 	if (a.z != 0)
-// 		a.z += data->altitude;
-// 	if (b.z != 0)
-// 		b.z += data->altitude;
-//     zoom(data, &a, &b);
-//     x_step = b.x - a.x;
-//     y_step = b.y - a.y;
-// 	z_step = b.z - a.z;
-//     if (mod(x_step) > mod(y_step) && mod(x_step) > mod(z_step))
-//         max = mod(x_step);
-//     else if (mod(y_step) > mod(x_step) && mod(y_step) > mod(z_step))
-//         max = mod(y_step);
-// 	else
-// 		max = mod(z_step);
-//     x_step /= max;
-//     y_step /= max;
-// 	z_step /= max; 
-//     if (a.z != 0 && b.z == 0 && (a.z != 0 && b.z != 0))
-// 	{
-//         while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
-//         {
-//             put_pixel(data, a.x, a.y, a.z, 0xFF0000);
-//             a.x += x_step;
-//             a.y += y_step;
-// 			a.z += z_step;
-//             if (a.y < 0 || a.x < 0)
-//                 break ;
-//         }
-//     }
-//         while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
-//         {
-//             put_pixel(data, a.x, a.y, a.z, 0xFF0000);
-//             a.x += x_step;
-//             a.y += y_step;
-// 			a.z += z_step;
-//             if (a.y < 0 || a.x < 0)
-//                 break ;
-//         }
-// }
 void draw_line(t_point a, t_point b, t_cache *data)
 {
     float x_step;
@@ -119,12 +73,8 @@ void draw_line(t_point a, t_point b, t_cache *data)
     x_step /= max;
     y_step /= max;
     z_step /= max;
-
-    // Calculate the color gradient
-    int color_a = 0xFFFFFF;  // Starting color (adjust as needed)
-    int color_b = 0xaaaaaa;  // Ending color (adjust as needed)
-
-    // Calculate the color step values
+    int color_a = 0xFFFFFF;
+    int color_b = 0xaaaaaa;
     float r_step = ((color_b >> 16) & 0xFF - (color_a >> 16) & 0xFF) / (float)max;
     float g_step = ((color_b >> 8) & 0xFF - (color_a >> 8) & 0xFF) / (float)max;
     float b_step = ((color_b & 0xFF) - (color_a & 0xFF)) / (float)max;
