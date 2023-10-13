@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/13 16:03:49 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:28:43 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,6 @@ void	zoom(t_cache *data, t_point *a, t_point *b)
 	b->y *= data->zoom;
 	b->z *= data->zoom;
 }
-
-void	zoom2(t_cache *data, t_point *a)
-{
-	a->x *= data->zoom;
-	a->y *= data->zoom;
-	a->z *= data->zoom;
-}
-
-void	zoom3(t_cache *data, int *x, int *y, int *z)
-{
-	*x *= data->zoom;
-	*y *= data->zoom;
-	*z *= data->zoom;
-}
-
-// void draw_point(int x, int y, int z, t_cache *data)
-// {
-// 	zoom3(data, &x, &y, &z);
-// 	z += data->altitude;
-// 	if (z != 0)
-//         put_pixel(data, x, y, z, 0xFF0000);
-// }
 
 // void draw_line(t_point a, t_point b, t_cache *data)
 // {

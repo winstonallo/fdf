@@ -22,7 +22,10 @@
 # define RIGHT 65363
 # define ZOOM 65451
 # define DEZOOM 65453
-# define LOWER 
+# define O 0x006F
+# define U 0x0075
+# define S 0x0073
+# define W 0x0077
 
 typedef struct s_point
 {

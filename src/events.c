@@ -39,22 +39,22 @@ int	do_shit2(int key, t_cache *data)
 		data->y_offset += 100;
 		new_image(data);
 	}
-	if (key == 0x006F)
+	if (key == O)
 	{
 		data->angle += 0.1;
 		new_image(data);
 	}
-	if (key == 0x0075)
+	if (key == U)
 	{
 		data->angle -= 0.1;
 		new_image(data);
 	}
-	if (key == 0x0077)
+	if (key == S)
 	{
 		data->altitude -= 1;
 		new_image(data);
 	}
-	if (key == 0x0073)
+	if (key == W)
 	{
 		data->altitude += 1;
 		new_image(data);
