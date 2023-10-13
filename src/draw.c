@@ -73,8 +73,6 @@ void draw_line(t_point a, t_point b, t_cache *data)
     x_step /= max;
     y_step /= max;
 	z_step /= max; 
-
-    // Check if a and b have different altitudes and a is not at sea level
     if (a.z != 0 && b.z == 0 && (a.z != 0 && b.z != 0))
 	{
         while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
