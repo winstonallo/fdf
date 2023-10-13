@@ -12,15 +12,6 @@
 
 #include "../include/fdf.h"
 
-// t_point project_point(t_point p, t_cache *data)
-// {
-//     t_point result;
-//     result.x = (p.x - p.y) * cos(data->angle) + data->x_offset;
-//     result.y = (p.x + p.y) * sin(data->angle) + data->y_offset;
-//     result.z = p.z; // Z coordinate remains the same after projection
-//     return result;
-// }
-
 void	put_pixel(t_cache *data, int x, int y, float z, int color)
 {
 	char	*dst;
@@ -56,28 +47,6 @@ void	zoom(t_cache *data, t_point *a, t_point *b)
 	b->x *= data->zoom;
 	b->y *= data->zoom;
 	b->z *= data->zoom;
-}
-
-void	zoom2(t_cache *data, t_point *a)
-{
-	a->x *= data->zoom;
-	a->y *= data->zoom;
-	a->z *= data->zoom;
-}
-
-void	zoom3(t_cache *data, int *x, int *y, int *z)
-{
-	*x *= data->zoom;
-	*y *= data->zoom;
-	*z *= data->zoom;
-}
-
-void draw_point(int x, int y, int z, t_cache *data)
-{
-	zoom3(data, &x, &y, &z);
-	z += data->altitude;
-	if (z != 0)
-        put_pixel(data, x, y, z, 0xFF0000);
 }
 
 void draw_line(t_point a, t_point b, t_cache *data)
