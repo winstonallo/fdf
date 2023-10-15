@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 13:46:48 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:07:45 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ int	find_max(float x_step, float y_step, float z_step)
 
 void draw_line(t_point a, t_point b, t_cache *data)
 {
-    float x_step;
-    float y_step;
-    float z_step;
     int max;
 
     if (a.z != 0)
@@ -71,53 +68,33 @@ void draw_line(t_point a, t_point b, t_cache *data)
     if (b.z != 0)
         b.z += data->altitude;
     zoom(data, &a, &b);
-    x_step = b.x - a.x;
-    y_step = b.y - a.y;
-    z_step = b.z - a.z;
-    max = find_max(x_step, y_step, z_step);
-    x_step /= max;
-    y_step /= max;
-    z_step /= max;
-    int color_a = 0xFFFFFF;
-    int color_b = 0xaaaaaa;
-    float r_step = ((color_b >> 16) & 0xFF - (color_a >> 16) & 0xFF) / (float)max;
-    float g_step = ((color_b >> 8) & 0xFF - (color_a >> 8) & 0xFF) / (float)max;
-    float b_step = ((color_b & 0xFF) - (color_a & 0xFF)) / (float)max;
-
+    data->steps.x = b.x - a.x;
+    data->steps.y = b.y - a.y;
+    data->steps.z = b.z - a.z;
+    max = find_max(data->steps.x, data->steps.y, data->steps.z);
+    data->steps.x /= max;
+	data->steps.y /= max;
+    data->steps.z /= max;
     if (a.z != 0 && b.z == 0 && (a.z != 0 && b.z != 0))
     {
-        int steps = 0;
         while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
         {
-            int r = (int)((color_a >> 16) & 0xFF + (int)r_step * steps);
-            int g = (int)((color_a >> 8) & 0xFF + (int)g_step * steps);
-            int b = (int)(color_a & 0xFF + (int)b_step * steps);
-            int color = (r << 16) | (g << 8) | b;
-
-            put_pixel(data, a.x, a.y, a.z, color);
-            a.x += x_step;
-            a.y += y_step;
-            a.z += z_step;
-            steps++;
+            put_pixel(data, a.x, a.y, a.z, data->color);
+            a.x += data->steps.x;
+            a.y += data->steps.y;
+            a.z += data->steps.z;
             if (a.y < 0 || a.x < 0)
                 break ;
         }
     }
     else
     {
-        int steps = 0;
         while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
         {
-            int r = (int)((color_a >> 16) & 0xFF + (int)r_step * steps);
-            int g = (int)((color_a >> 8) & 0xFF + (int)g_step * steps);
-            int b = (int)(color_a & 0xFF + (int)b_step * steps);
-            int color = (r << 16) | (g << 8) | b;
-
-            put_pixel(data, a.x, a.y, a.z, color);
-            a.x += x_step;
-            a.y += y_step;
-            a.z += z_step;
-            steps++;
+            put_pixel(data, a.x, a.y, a.z, data->color);
+            a.x += data->steps.x;
+            a.y += data->steps.y;
+            a.z += data->steps.z;
             if (a.y < 0 || a.x < 0)
                 break ;
         }

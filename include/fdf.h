@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/13 16:00:09 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:02:33 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_point
 	float	y;
 	float	z;
 }	t_point;
+
 typedef struct s_image_data
 {
 	void	*img;
@@ -41,6 +42,13 @@ typedef struct s_image_data
 	int		l_l;
 	int		endian;
 }	t_image_data;
+
+typedef struct s_steps
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_steps;
 
 typedef struct s_cache
 {
@@ -60,6 +68,8 @@ typedef struct s_cache
 	int				y_offset;
 	float			angle;
 	int				altitude;
+	int				color;
+	t_steps			steps;
 }	t_cache;
 
 int		main(int argc, char **argv);
