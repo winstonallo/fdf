@@ -31,6 +31,8 @@ void	put_pixel(t_cache *data, int x, int y, float z, int color)
 	}
 }
 
+//HELLO 
+
 float	mod(float i)
 {
 	if (i < 0)
