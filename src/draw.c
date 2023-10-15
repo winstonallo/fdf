@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 13:45:30 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:46:48 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,8 @@ void draw_line(t_point a, t_point b, t_cache *data)
     x_step /= max;
     y_step /= max;
     z_step /= max;
-
-    // Calculate the color gradient
-    int color_a = 0xFFFFFF;  // Starting color (adjust as needed)
-    int color_b = 0xaaaaaa;  // Ending color (adjust as needed)
-
-    // Calculate the color step values
+    int color_a = 0xFFFFFF;
+    int color_b = 0xaaaaaa;
     float r_step = ((color_b >> 16) & 0xFF - (color_a >> 16) & 0xFF) / (float)max;
     float g_step = ((color_b >> 8) & 0xFF - (color_a >> 8) & 0xFF) / (float)max;
     float b_step = ((color_b & 0xFF) - (color_a & 0xFF)) / (float)max;
