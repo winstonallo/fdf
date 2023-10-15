@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 22:10:02 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:24:33 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,19 @@ void	print_menu(t_cache *data)
 	char	*menu;
 
 	menu = "abied-ch's FDF:";
-	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 20, 0xFFFFFF, menu);
-	menu = "PRESS ARROWS TO MOVE THE IMAGE";
-	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 40, 0xFFFFFF, menu);
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 20, 0xbcbcbc, menu);
+	menu = "Press arrows to move the image";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 40, 0xbcbcbc, menu);
+	menu = "Press O/U to tilt the picture";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 60, 0xbcbcbc, menu);
+	menu = "Press W/S to change the altitude";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 80, 0xbcbcbc, menu);
+	menu = "Press +/- (numpad) to zoom in/out";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 100, 0xbcbcbc, menu);
+	menu = "Press SPACE to change the view (isometric/parallel)";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 120, 0xbcbcbc, menu);
+	menu = "Press ESCAPE to exit";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 140, 0xbcbcbc, menu);
 }
 
 void	new_image(t_cache *data)
@@ -29,6 +39,7 @@ void	new_image(t_cache *data)
 			&data->img.bpp, &data->img.l_l, &data->img.endian);
 	draw(data->dots, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+	print_menu(data);
 }
 
 void	zoom(t_cache *data, t_point *a, t_point *b)

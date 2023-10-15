@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:14:44 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 20:05:17 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:16:21 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ int	main(int argc, char **argv)
 	data.img.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
 	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
 			&data.img.l_l, &data.img.endian);
-	print_menu(&data);
 	draw(data.dots, &data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
+	print_menu(&data);
 	mlx_key_hook(data.win_ptr, do_shit, &data);
 	mlx_hook(data.win_ptr, 17, 0, close_window, &data);
 	mlx_loop(data.mlx_ptr);
