@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 14:02:33 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:25:24 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void	draw(t_point **dots, t_cache *data);
 int		do_shit(int key, t_cache *data);
 void	free_structs(t_point **dots);
 void	write_to_image(t_cache *data, char *str);
+void	zoom(t_cache *data, t_point *a, t_point *b);
 
 #endif

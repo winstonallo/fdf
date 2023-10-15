@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 18:22:45 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 23:01:30 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 15:33:31 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,3 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	return (ft_get_next_line(fd, line));
 }
-
-

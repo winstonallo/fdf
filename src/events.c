@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/13 16:02:07 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:25:14 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ void	new_image(t_cache *data)
 			&data->img.l_l, &data->img.endian);
 	draw(data->dots, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+}
+
+void	zoom(t_cache *data, t_point *a, t_point *b)
+{
+	a->x *= data->zoom;
+	a->y *= data->zoom;
+	a->z *= data->zoom;
+	b->x *= data->zoom;
+	b->y *= data->zoom;
+	b->z *= data->zoom;
 }
 
 int	do_shit2(int key, t_cache *data)
