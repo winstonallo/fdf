@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:14:44 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 22:16:21 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:38:21 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	initialize_cache(t_cache *data)
 	data->x_offset = 700;
 	data->y_offset = 250;
 	data->angle = 0.6;
-	data->altitude = 1.1;
+	data->altitude = 0.5;
 	data->zoom = 40;
 	data->sea_level_color = 0xfbdddd;
 	data->altitude_color = 0xbaf2ef;
