@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 20:11:10 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 21:39:33 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	get_measurements(char *line, t_cache *data)
 	in_number = 0;
 	while (line[i])
 	{
+		if (line[i] == ',')
+			i += 9;
 		if (ft_isdigit(line[i]) && !in_number)
 		{
 			in_number = 1;
@@ -125,7 +127,7 @@ int	read_map(char *file_name, t_cache *data)
 		if (check_line_length(line, data) == -1)
 			return (ft_putendl_fd("Invalid Map: Line length not constant", 2),
 				free(line), cleanup(data), -1);
-		if (get_dots_from_line(line, data->dots, y++) == -1)
+		if (get_dots_from_line(line, data->dots, y++) != data->width)
 			return (perror("Memory allocation failed"), cleanup(data), -1);
 	}
 	free(line);

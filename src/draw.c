@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 19:34:53 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:10:16 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ void	draw_line(t_point a, t_point b, t_cache *data)
 {
 	int	max;
 
-	if (a.z != 0)
-		a.z += data->altitude;
-	if (b.z != 0)
-		b.z += data->altitude;
+	a.z *= data->altitude;
+	b.z *= data->altitude;
 	zoom(data, &a, &b);
 	data->steps.x = b.x - a.x;
 	data->steps.y = b.y - a.y;

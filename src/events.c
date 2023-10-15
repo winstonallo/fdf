@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 20:15:35 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:10:02 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,21 @@ void	do_shit2(int key, t_cache *data)
 		data->angle += 0.1;
 	else if (key == U)
 		data->angle -= 0.1;
-	else if (key == S)
-		data->altitude -= 1;
 	else if (key == W)
-		data->altitude += 1;
+		data->altitude *= 1.1;
+	else if (key == S && (data->altitude > 0.09 || data->altitude < -0.09))
+		data->altitude *= 0.9;
+	else if (key == S && (data->altitude <= 0.09 && data->altitude > 0))
+		data->altitude -= data->altitude + 0.1;
+	else if (key == S && (data->altitude >= -0.09 && data->altitude < 0))
+		data->altitude += 0.1;
 	else if (key == SPACE)
 	{
 		if (data->angle == 0)
 			data->angle = 0.6;
 		else
 			data->angle = 0;
-	}	
-	
+	}
 	new_image(data);
 }
 
