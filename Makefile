@@ -6,7 +6,7 @@
 #    By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/06 18:42:13 by abied-ch          #+#    #+#              #
-#    Updated: 2023/10/11 22:50:48 by abied-ch         ###   ########.fr        #
+#    Updated: 2023/10/15 18:15:23 by abied-ch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS = 	${SRC_DIR}/read.c \
 		${SRC_DIR}/fdf.c \
 		${SRC_DIR}/events.c \
 		${SRC_DIR}/cleanup.c \
+		${SRC_DIR}/errors.c \
 				
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 

@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 14:25:33 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 19:34:53 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	put_pixel(t_cache *data, int x, int y, float z)
 	{
 		dst = data->img.addr + ((int)yy * data->img.l_l
 				+ (int)xx * (data->img.bpp / 8));
-		*(unsigned int *)dst = data->color;
+		if (z != 0)
+			*(unsigned int *)dst = data->sea_level_color;
+		else
+			*(unsigned int *)dst = data->altitude_color;
 	}
 }
 
@@ -88,13 +91,9 @@ void	draw(t_point **dots, t_cache *data)
 		while (x < data->width)
 		{
 			if (dots[y + 1])
-			{
 				draw_line(dots[y][x], dots[y + 1][x], data);
-			}
 			if (x < data->width - 1)
-			{
 				draw_line(dots[y][x], dots[y][x + 1], data);
-			}
 			x++;
 		}
 		y++;
