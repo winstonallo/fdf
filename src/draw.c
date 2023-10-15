@@ -6,13 +6,13 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:12:26 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 14:07:45 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:15:14 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-void	put_pixel(t_cache *data, int x, int y, float z, int color)
+void	put_pixel(t_cache *data, int x, int y, float z)
 {
 	char	*dst;
 	int		yy;
@@ -27,7 +27,10 @@ void	put_pixel(t_cache *data, int x, int y, float z, int color)
 	{
 		dst = data->img.addr + ((int)yy * data->img.l_l
 				+ (int)xx * (data->img.bpp / 8));
-		*(unsigned int *)dst = color;
+		if (z != 0)
+			*(unsigned int *)dst = data->sea_level_color;
+		else
+			*(unsigned int *)dst = data->altitude_color;
 	}
 }
 
@@ -41,89 +44,39 @@ float	mod(float i)
 		return (i);
 }
 
-void	zoom(t_cache *data, t_point *a, t_point *b)
-{
-	a->x *= data->zoom;
-	a->y *= data->zoom;
-	a->z *= data->zoom;
-	b->x *= data->zoom;
-	b->y *= data->zoom;
-	b->z *= data->zoom;
-}
-
 int	find_max(float x_step, float y_step, float z_step)
 {
 	if (mod(x_step) > mod(y_step) && mod(x_step) > mod(z_step))
-        return (mod(x_step));
-    else if (mod(y_step) > mod(x_step) && mod(y_step) > mod(z_step))
-        return (mod(y_step));
+		return (mod(x_step));
+	else if (mod(y_step) > mod(x_step) && mod(y_step) > mod(z_step))
+		return (mod(y_step));
 	else
-        return (mod(z_step));
+		return (mod(z_step));
 }
 
-void draw_line(t_point a, t_point b, t_cache *data)
+void	draw_line(t_point a, t_point b, t_cache *data)
 {
-    int max;
+	int	max;
 
-    if (a.z != 0)
-        a.z += data->altitude;
-    if (b.z != 0)
-        b.z += data->altitude;
-    zoom(data, &a, &b);
-    data->steps.x = b.x - a.x;
-    data->steps.y = b.y - a.y;
-    data->steps.z = b.z - a.z;
-    max = find_max(data->steps.x, data->steps.y, data->steps.z);
-    data->steps.x /= max;
+	a.z *= data->altitude;
+	b.z *= data->altitude;
+	zoom(data, &a, &b);
+	data->steps.x = b.x - a.x;
+	data->steps.y = b.y - a.y;
+	data->steps.z = b.z - a.z;
+	max = find_max(data->steps.x, data->steps.y, data->steps.z);
+	data->steps.x /= max;
 	data->steps.y /= max;
-    data->steps.z /= max;
-    if (a.z != 0 && b.z == 0 && (a.z != 0 && b.z != 0))
-    {
-        while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
-        {
-            put_pixel(data, a.x, a.y, a.z, data->color);
-            a.x += data->steps.x;
-            a.y += data->steps.y;
-            a.z += data->steps.z;
-            if (a.y < 0 || a.x < 0)
-                break ;
-        }
-    }
-    else
-    {
-        while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
-        {
-            put_pixel(data, a.x, a.y, a.z, data->color);
-            a.x += data->steps.x;
-            a.y += data->steps.y;
-            a.z += data->steps.z;
-            if (a.y < 0 || a.x < 0)
-                break ;
-        }
-    }
-}
-
-
-
-void print_menu(t_cache *data)
-{
-    char *menu;
-
-    menu = "1: isometric/plane mode; ARROWS: move";
-    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 20, 0xffc589, menu) == 0)
-        printf("Error: Unable to render menu 1\n");
-
-    menu = "AD: Z-scale; NUMPAD +,-: zoom";
-    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 35, 0xffc589, menu) == 0)
-        printf("Error: Unable to render menu 2\n");
-
-    menu = "UO: z-rotation; IK: y-rotation; JL: x-rotation";
-    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 50, 0xffc589, menu) == 0)
-        printf("Error: Unable to render menu 3\n");
-
-    menu = "R: reset image, ESC: exit";
-    if (mlx_string_put(data->mlx_ptr, data->win_ptr, 1600, 65, 0xffc589, menu) == 0)
-        printf("Error: Unable to render menu 4\n");
+	data->steps.z /= max;
+	while ((int)(a.x - b.x) || (int)(a.y - b.y) || (int)(a.z - b.z))
+	{
+		put_pixel(data, a.x, a.y, a.z);
+		a.x += data->steps.x;
+		a.y += data->steps.y;
+		a.z += data->steps.z;
+		if (a.y < 0 || a.x < 0)
+			break ;
+	}
 }
 
 void	draw(t_point **dots, t_cache *data)
@@ -138,16 +91,11 @@ void	draw(t_point **dots, t_cache *data)
 		while (x < data->width)
 		{
 			if (dots[y + 1])
-			{
 				draw_line(dots[y][x], dots[y + 1][x], data);
-			}
 			if (x < data->width - 1)
-			{
 				draw_line(dots[y][x], dots[y][x + 1], data);
-			}
 			x++;
 		}
 		y++;
 	}
-	print_menu(data);
 }

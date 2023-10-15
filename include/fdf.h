@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 14:02:33 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 20:13:43 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define U 0x0075
 # define S 0x0073
 # define W 0x0077
+# define SPACE 0x0020
 
 typedef struct s_point
 {
@@ -67,8 +68,9 @@ typedef struct s_cache
 	int				x_offset;
 	int				y_offset;
 	float			angle;
-	int				altitude;
-	int				color;
+	float			altitude;
+	int				sea_level_color;
+	int				altitude_color;
 	t_steps			steps;
 }	t_cache;
 
@@ -78,10 +80,13 @@ void	empty_cache(t_cache *data);
 int		find_coordinates(t_cache *data);
 int		store_map(t_cache *data);
 int		open_map(char *path, t_cache *data);
-void	read_map(char *file_name, t_cache *data);
+int		read_map(char *file_name, t_cache *data);
 void	draw(t_point **dots, t_cache *data);
 int		do_shit(int key, t_cache *data);
-void	free_structs(t_point **dots);
+void	cleanup(t_cache *data);
 void	write_to_image(t_cache *data, char *str);
+void	zoom(t_cache *data, t_point *a, t_point *b);
+void	print_menu(t_cache *data);
+int		check_line_length(char *line, t_cache *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 18:22:45 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/11 23:01:30 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 19:18:04 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*ft_malloc_size(char **line, char *buf)
 		buf_len++;
 	ret = (char *)malloc(sizeof(char) * (buf_len + line_len + 1));
 	if (!ret)
-		return (NULL);
+		return (free(buf), NULL);
 	return (ret);
 }
 
@@ -38,7 +38,7 @@ static int	ft_add_to_line(char **line, char *buf)
 
 	tmp = ft_malloc_size(line, buf);
 	if (!tmp)
-		return (-1);
+		return (free(line), -1);
 	i = 0;
 	j = 0;
 	while (*line && (*line)[i] && (*line)[i] != '\n')
@@ -93,5 +93,3 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	return (ft_get_next_line(fd, line));
 }
-
-

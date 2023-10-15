@@ -6,94 +6,103 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/13 16:02:07 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:24:33 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
+void	print_menu(t_cache *data)
+{
+	char	*menu;
+
+	menu = "abied-ch's FDF:";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 20, 0xbcbcbc, menu);
+	menu = "Press arrows to move the image";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 40, 0xbcbcbc, menu);
+	menu = "Press O/U to tilt the picture";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 60, 0xbcbcbc, menu);
+	menu = "Press W/S to change the altitude";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 80, 0xbcbcbc, menu);
+	menu = "Press +/- (numpad) to zoom in/out";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 100, 0xbcbcbc, menu);
+	menu = "Press SPACE to change the view (isometric/parallel)";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 120, 0xbcbcbc, menu);
+	menu = "Press ESCAPE to exit";
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 20, 140, 0xbcbcbc, menu);
+}
+
 void	new_image(t_cache *data)
 {
 	data->img.img = mlx_new_image(data->mlx_ptr, 1920, 1080);
 	data->img.addr = mlx_get_data_addr(data->img.img,
-			&data->img.bpp,
-			&data->img.l_l, &data->img.endian);
+			&data->img.bpp, &data->img.l_l, &data->img.endian);
 	draw(data->dots, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+	print_menu(data);
 }
 
-int	do_shit2(int key, t_cache *data)
+void	zoom(t_cache *data, t_point *a, t_point *b)
+{
+	if (data->zoom <= 0)
+		data->zoom = 5;
+	a->x *= data->zoom;
+	a->y *= data->zoom;
+	a->z *= data->zoom;
+	b->x *= data->zoom;
+	b->y *= data->zoom;
+	b->z *= data->zoom;
+}
+
+void	do_shit2(int key, t_cache *data)
 {
 	if (key == ZOOM)
-	{
-		data->zoom += 5;
-		new_image(data);
-	}
-	if (key == DEZOOM)
-	{
+		data->zoom += 1;
+	else if (key == DEZOOM)
 		data->zoom -= 0.5;
-		new_image(data);
-	}
-	if (key == DOWN)
-	{
-		data->y_offset += 100;
-		new_image(data);
-	}
-	if (key == O)
-	{
+	else if (key == O)
 		data->angle += 0.1;
-		new_image(data);
-	}
-	if (key == U)
-	{
+	else if (key == U)
 		data->angle -= 0.1;
-		new_image(data);
-	}
-	if (key == S)
+	else if (key == W)
+		data->altitude *= 1.1;
+	else if (key == S && (data->altitude > 0.09 || data->altitude < -0.09))
+		data->altitude *= 0.9;
+	else if (key == S && (data->altitude <= 0.09 && data->altitude > 0))
+		data->altitude -= data->altitude + 0.1;
+	else if (key == S && (data->altitude >= -0.09 && data->altitude < 0))
+		data->altitude += 0.1;
+	else if (key == SPACE)
 	{
-		data->altitude -= 1;
-		new_image(data);
+		if (data->angle == 0)
+			data->angle = 0.6;
+		else
+			data->angle = 0;
 	}
-	if (key == W)
-	{
-		data->altitude += 1;
-		new_image(data);
-	}
-	return (0);
+	new_image(data);
 }
 
 int	do_shit(int key, t_cache *data)
 {
 	if (key == ESCAPE)
 	{
+		mlx_destroy_image(data->mlx_ptr, data->img.img);
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		mlx_destroy_display(data->mlx_ptr);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);		
 		free(data->mlx_ptr);
-		free_structs(data->dots);
-		
+		cleanup(data);
 		exit(0);
 	}
-	if (key == RIGHT)
-	{
+	else if (key == RIGHT)
 		data->x_offset += 100;
-		new_image(data);
-	}
-	if (key == LEFT)
-	{
+	else if (key == LEFT)
 		data->x_offset -= 100;
-		new_image(data);
-	}
-	if (key == UP)
-	{
+	else if (key == UP)
 		data->y_offset -= 100;
-		new_image(data);
-	}
+	else if (key == DOWN)
+		data->y_offset += 100;
 	else
 		do_shit2(key, data);
+	new_image(data);
 	return (0);
-}
-
-void write_to_image(t_cache *data, char *str)
-{
-	mlx_string_put(data->mlx_ptr, data->win_ptr, 1000, 500, 0xaaaaaa, str);
 }

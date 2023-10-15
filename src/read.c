@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/12 16:16:15 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/15 21:39:33 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@ int	get_dots_from_line(char *line, t_point **dots, int y)
 	int		x;
 
 	if (line)
+	{
 		points = ft_split(line, ' ');
+		if (!points)
+			return (free(line), -1);
+	}
 	else
 		return (-1);
 	x = 0;
 	while (points[x])
 	{
 		dots[y][x].z = ft_atoi(points[x]);
+		if (abs(dots[y][x].z > 15))
+			dots[y][x].z = 15;
 		dots[y][x].x = x;
 		dots[y][x].y = y;
 		free(points[x++]);
@@ -43,6 +49,8 @@ void	get_measurements(char *line, t_cache *data)
 	in_number = 0;
 	while (line[i])
 	{
+		if (line[i] == ',')
+			i += 9;
 		if (ft_isdigit(line[i]) && !in_number)
 		{
 			in_number = 1;
@@ -67,12 +75,12 @@ t_point	**allocate(t_cache *data)
 	{
 		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
 		if (!new[height])
-			return (NULL);
+			return (cleanup(data), NULL);
 	}
 	return (new);
 }
 
-t_point	**memory_allocate(char *file_name, t_cache *data)
+t_point	**make_room(char *file_name, t_cache *data)
 {
 	t_point	**new;
 	char	*line;
@@ -80,7 +88,8 @@ t_point	**memory_allocate(char *file_name, t_cache *data)
 	data->map_fd = open(file_name, O_RDONLY, 0);
 	if (data->map_fd <= 0)
 		perror("Could not open map");
-	get_next_line(data->map_fd, &line);
+	if (get_next_line(data->map_fd, &line) == -1)
+		return (NULL);
 	get_measurements(line, data);
 	free(line);
 	while (get_next_line(data->map_fd, &line) > 0)
@@ -88,7 +97,10 @@ t_point	**memory_allocate(char *file_name, t_cache *data)
 		data->height++;
 		free(line);
 	}
+	if (!line)
+		return (NULL);
 	free(line);
+	data->zoom -= data->height;
 	new = allocate(data);
 	if (!new)
 		return (NULL);
@@ -96,19 +108,30 @@ t_point	**memory_allocate(char *file_name, t_cache *data)
 	return (new);
 }
 
-void	read_map(char *file_name, t_cache *data)
+int	read_map(char *file_name, t_cache *data)
 {
 	int		y;
 	char	*line;
 
-	data->dots = memory_allocate(file_name, data);
+	data->dots = make_room(file_name, data);
 	if (!data->dots)
 		exit(EXIT_FAILURE);
 	data->map_fd = open(file_name, O_RDONLY, 0);
+	if (data->map_fd == -1)
+		return (perror("Could not open map"), -1);
 	y = 0;
 	while (get_next_line(data->map_fd, &line) > 0)
-		get_dots_from_line(line, data->dots, y++);
+	{
+		if (!line)
+			return (perror("Memory allocation failed"), cleanup(data), -1);
+		if (check_line_length(line, data) == -1)
+			return (ft_putendl_fd("Invalid Map: Line length not constant", 2),
+				free(line), cleanup(data), -1);
+		if (get_dots_from_line(line, data->dots, y++) != data->width)
+			return (perror("Memory allocation failed"), cleanup(data), -1);
+	}
 	free(line);
 	data->dots[y] = NULL;
 	close(data->map_fd);
+	return (0);
 }
