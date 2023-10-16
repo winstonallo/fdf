@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 13:25:49 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:16:16 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,18 @@ void	get_measurements(char *line, t_cache *data)
 
 	i = 0;
 	in_number = 0;
-	while (i < ft_strlen(line))
+	while (line[i])
 	{
-		if (line[i] == ',')
-			i += 9;
-		if (ft_isdigit(line[i]) && !in_number)
+		if (!space(line[i]) && !in_number)
 		{
 			in_number = 1;
 			data->width++;
 		}
-		else
+		else if (space(line[i]))
 			in_number = 0;
 		i++;
 	}
+	printf("data->width =% d\n", data->width);
 }
 
 t_point	**allocate(t_cache *data)
@@ -75,7 +74,7 @@ t_point	**allocate(t_cache *data)
 	{
 		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
 		if (!new[height])
-			return (cleanup(new, data), NULL);
+			return (clean(new, data), NULL);
 	}
 	return (new);
 }
@@ -105,35 +104,35 @@ t_point	**make_room(char *file_name, t_cache *data)
 	if (!new)
 		return (NULL);
 	if (close(data->map_fd) == -1)
-		return (cleanup(new, data), NULL);
+		return (clean(new, data), NULL);
 	return (new);
 }
 
-int	read_map(char *file_name, t_cache *data)
+int	read_map(char *file_name, t_cache *d)
 {
 	int		y;
 	char	*line;
 
-	data->dots = make_room(file_name, data);
-	if (!data->dots)
+	d->dots = make_room(file_name, d);
+	if (!d->dots)
 		exit(EXIT_FAILURE);
-	data->map_fd = open(file_name, O_RDONLY, 0);
-	if (data->map_fd == -1)
-		return (perror("Could not open map"), cleanup(data->dots, data), -1);
+	d->map_fd = open(file_name, O_RDONLY, 0);
+	if (d->map_fd == -1)
+		return (perror("Could not open map"), clean(d->dots, d), -1);
 	y = 0;
-	while (get_next_line(data->map_fd, &line) > 0)
+	while (get_next_line(d->map_fd, &line) > 0)
 	{
 		if (!line)
-			return (perror("Memory allocation failed"), cleanup(data->dots, data), -1);
-		if (check_line_length(line, data) == -1)
+			return (perror("Memory allocation failed"), clean(d->dots, d), -1);
+		if (check_line_length(line, d) == -1)
 			return (ft_putendl_fd("Invalid Map: Line length not constant", 2),
-				free(line), cleanup(data->dots, data), -1);
-		if (get_dots_from_line(line, data->dots, y++) != data->width)
-			return (perror("Memory allocation failed"), cleanup(data->dots, data), -1);
+				free(line), clean(d->dots, d), -1);
+		if (get_dots_from_line(line, d->dots, y++) != d->width)
+			return (perror("Memory allocation failed"), clean(d->dots, d), -1);
 	}
 	free(line);
-	data->dots[y] = NULL;
-	if (close(data->map_fd) == -1)
-		return (cleanup(data->dots, data), -1);
+	d->dots[y] = NULL;
+	if (close(d->map_fd) == -1)
+		return (clean(d->dots, d), -1);
 	return (0);
 }

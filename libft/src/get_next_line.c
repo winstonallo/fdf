@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 18:22:45 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 13:19:21 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:51:33 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ static int	ft_get_next_line(int fd, char **line)
 
 	*line = NULL;
 	ret = ft_add_to_line(line, buf[fd]);
+	if (ret != -1 && *line && **line)
+		return (1);
 	while (ret != -1 && (*line)[ret] != '\n')
 	{
 		ret = read(fd, buf[fd], BUFFER_SIZE);

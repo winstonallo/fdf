@@ -6,11 +6,18 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 18:13:58 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 22:35:19 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:15:17 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
+
+int	space(char c)
+{
+	if (c == ' ')
+		return (1);
+	return (0);
+}
 
 int	check_line_length(char *line, t_cache *data)
 {
@@ -23,19 +30,18 @@ int	check_line_length(char *line, t_cache *data)
 	in_number = 0;
 	while (line[i])
 	{
-		if (line[i] == ',')
-			i += 9;
-		if (ft_isdigit(line[i]) && !in_number)
+		if (!space(line[i]) && !in_number)
 		{
 			in_number = 1;
 			line_length++;
 		}
-		else
+		if (space(line[i]))
 			in_number = 0;
 		i++;
 	}
 	if (line_length > 500)
 		line_length = 500;
+	printf("%d\n", line_length);
 	if (line_length != data->width)
 		return (-1);
 	return (0);

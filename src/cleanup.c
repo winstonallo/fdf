@@ -6,13 +6,13 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:39:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 13:31:43 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:55:55 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-void	cleanup(t_point **dots, t_cache *data)
+void	clean(t_point **dots, t_cache *data)
 {
 	int	i;
 
@@ -24,6 +24,6 @@ void	cleanup(t_point **dots, t_cache *data)
 			free(dots[i]);
 			i++;
 		}
-	free(dots);
+		free(dots);
 	}
 }

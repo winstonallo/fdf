@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 13:22:14 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:11:38 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ int		open_map(char *path, t_cache *data);
 int		read_map(char *file_name, t_cache *data);
 void	draw(t_point **dots, t_cache *data);
 int		do_shit(int key, t_cache *data);
-void	cleanup(t_point **dots, t_cache *data);
+void	clean(t_point **dots, t_cache *data);
 void	write_to_image(t_cache *data, char *str);
 void	zoom(t_cache *data, t_point *a, t_point *b);
 void	print_menu(t_cache *data);
 int		check_line_length(char *line, t_cache *data);
+int		space(char c);
+
 
 #endif
