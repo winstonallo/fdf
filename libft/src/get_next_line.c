@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 18:22:45 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 16:48:09 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:53:41 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ static int	ft_add_to_line(char **line, char *buf)
 	return (i);
 }
 
+int	do_what_i_want_now(char **line, int ret)
+{
+	if (ret != -1 && *line && **line)
+		return (1);
+	if (ret < 0)
+	{
+		free(*line);
+		*line = NULL;
+	}
+	return (ret);
+}
+
 static int	ft_get_next_line(int fd, char **line)
 {
 	static char		buf[FD_MAX][BUFFER_SIZE + 1];
@@ -70,16 +82,7 @@ static int	ft_get_next_line(int fd, char **line)
 	{
 		ret = read(fd, buf[fd], BUFFER_SIZE);
 		if (ret < 1)
-		{
-			if (ret != -1 && *line && **line)
-				return (1);
-			if (ret < 0)
-			{
-				free(*line);
-				*line = NULL;
-			}
-			return (ret);
-		}
+			return (do_what_i_want_now(line, ret));
 		buf[fd][ret] = '\0';
 		ret = ft_add_to_line(line, buf[fd]);
 	}
