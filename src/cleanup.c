@@ -6,24 +6,24 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:39:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 20:04:26 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:31:43 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
 
-void	cleanup(t_cache *data)
+void	cleanup(t_point **dots, t_cache *data)
 {
 	int	i;
 
 	i = 0;
-	if (data->dots)
+	if (dots)
 	{
 		while (i < data->height)
 		{
-			free(data->dots[i]);
+			free(dots[i]);
 			i++;
 		}
+	free(dots);
 	}
-	free(data->dots);
 }

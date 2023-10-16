@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 12:20:50 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:25:49 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_point	**allocate(t_cache *data)
 	{
 		new[--height] = (t_point *)malloc(sizeof(t_point) * (data->width + 1));
 		if (!new[height])
-			return (cleanup(data), NULL);
+			return (cleanup(new, data), NULL);
 	}
 	return (new);
 }
@@ -104,7 +104,8 @@ t_point	**make_room(char *file_name, t_cache *data)
 	new = allocate(data);
 	if (!new)
 		return (NULL);
-	close(data->map_fd);
+	if (close(data->map_fd) == -1)
+		return (cleanup(new, data), NULL);
 	return (new);
 }
 
@@ -118,20 +119,21 @@ int	read_map(char *file_name, t_cache *data)
 		exit(EXIT_FAILURE);
 	data->map_fd = open(file_name, O_RDONLY, 0);
 	if (data->map_fd == -1)
-		return (perror("Could not open map"), -1);
+		return (perror("Could not open map"), cleanup(data->dots, data), -1);
 	y = 0;
 	while (get_next_line(data->map_fd, &line) > 0)
 	{
 		if (!line)
-			return (perror("Memory allocation failed"), cleanup(data), -1);
+			return (perror("Memory allocation failed"), cleanup(data->dots, data), -1);
 		if (check_line_length(line, data) == -1)
 			return (ft_putendl_fd("Invalid Map: Line length not constant", 2),
-				free(line), cleanup(data), -1);
+				free(line), cleanup(data->dots, data), -1);
 		if (get_dots_from_line(line, data->dots, y++) != data->width)
-			return (perror("Memory allocation failed"), cleanup(data), -1);
+			return (perror("Memory allocation failed"), cleanup(data->dots, data), -1);
 	}
 	free(line);
 	data->dots[y] = NULL;
-	close(data->map_fd);
+	if (close(data->map_fd) == -1)
+		return (cleanup(data->dots, data), -1);
 	return (0);
 }
