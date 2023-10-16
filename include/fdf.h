@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 16:11:38 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:46:35 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,5 @@ void	zoom(t_cache *data, t_point *a, t_point *b);
 void	print_menu(t_cache *data);
 int		check_line_length(char *line, t_cache *data);
 int		space(char c);
-
 
 #endif
