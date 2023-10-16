@@ -29,7 +29,7 @@ int	get_dots_from_line(char *line, t_point **dots, int y)
 	while (points[x])
 	{
 		dots[y][x].z = ft_atoi(points[x]);
-		if (abs(dots[y][x].z > 15))
+		if (mod(dots[y][x].z > 15)) //TODO fix this, this does not work for negative altitude
 			dots[y][x].z = 15;
 		dots[y][x].x = x;
 		dots[y][x].y = y;

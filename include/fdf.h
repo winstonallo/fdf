@@ -89,5 +89,6 @@ void	zoom(t_cache *data, t_point *a, t_point *b);
 void	print_menu(t_cache *data);
 int		check_line_length(char *line, t_cache *data);
 int		space(char c);
+float	mod(float i);
 
 #endif
