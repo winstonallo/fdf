@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 16:16:16 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 16:41:53 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	get_measurements(char *line, t_cache *data)
 			in_number = 0;
 		i++;
 	}
-	printf("data->width =% d\n", data->width);
 }
 
 t_point	**allocate(t_cache *data)
