@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 21:39:33 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 08:55:26 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	get_dots_from_line(char *line, t_point **dots, int y)
 
 void	get_measurements(char *line, t_cache *data)
 {
-	int	in_number;
-	int	i;
+	int		in_number;
+	size_t	i;
 
 	i = 0;
 	in_number = 0;
-	while (line[i])
+	while (i < ft_strlen(line))
 	{
 		if (line[i] == ',')
 			i += 9;
