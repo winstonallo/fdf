@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 22:24:33 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:53:31 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	print_menu(t_cache *data)
 
 void	new_image(t_cache *data)
 {
+	if (data->img.img != NULL)
+		mlx_destroy_image(data->mlx_ptr, data->img.img);
 	data->img.img = mlx_new_image(data->mlx_ptr, 1920, 1080);
 	data->img.addr = mlx_get_data_addr(data->img.img,
 			&data->img.bpp, &data->img.l_l, &data->img.endian);
@@ -90,7 +92,7 @@ int	do_shit(int key, t_cache *data)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
-		cleanup(data);
+		clean(data->dots, data);
 		exit(0);
 	}
 	else if (key == RIGHT)

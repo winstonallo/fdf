@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:14:44 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/15 22:16:21 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:55:25 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	initialize_cache(t_cache *data)
 	data->x_offset = 700;
 	data->y_offset = 250;
 	data->angle = 0.6;
-	data->altitude = 1.1;
+	data->altitude = 0.5;
 	data->zoom = 40;
 	data->sea_level_color = 0xfbdddd;
 	data->altitude_color = 0xbaf2ef;
@@ -54,7 +54,7 @@ int	close_window(t_cache *data)
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
-	cleanup(data);
+	clean(data->dots, data);
 	exit(0);
 }
 
@@ -69,11 +69,11 @@ int	main(int argc, char **argv)
 		return (-1);
 	data.mlx_ptr = mlx_init();
 	if (!data.mlx_ptr)
-		return (perror("Memory allocation failed"), cleanup(&data), -1);
+		return (perror("Malloc failed"), clean(data.dots, &data), -1);
 	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "fdf");
 	if (!data.win_ptr)
-		return (perror("Memory allocation failed"), free(data.mlx_ptr),
-			cleanup(&data), -1);
+		return (perror("Malloc failed"), free(data.mlx_ptr),
+			clean(data.dots, &data), -1);
 	data.img.img = mlx_new_image(data.mlx_ptr, 1920, 1080);
 	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
 			&data.img.l_l, &data.img.endian);
