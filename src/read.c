@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 16:41:53 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:35:18 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_point	**make_room(char *file_name, t_cache *data)
 
 	data->map_fd = open(file_name, O_RDONLY, 0);
 	if (data->map_fd <= 0)
-		perror("Could not open map");
+		return (perror("Could not open map"), NULL);
 	if (get_next_line(data->map_fd, &line) == -1)
 		return (NULL);
 	get_measurements(line, data);
