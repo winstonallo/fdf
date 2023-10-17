@@ -29,25 +29,6 @@ void	initialize_cache(t_cache *data)
 	data->altitude_color = 0xbaf2ef;
 }
 
-void	print_map(t_point **dots, t_cache *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < data->height)
-	{
-		j = 0;
-		while (j < data->width)
-		{
-			printf("%3d", (int)dots[i][j].z);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
-
 int	close_window(t_cache *data)
 {
 	mlx_destroy_image(data->mlx_ptr, data->img.img);
