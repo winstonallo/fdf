@@ -6,7 +6,7 @@
 /*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 11:07:29 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/17 16:35:18 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/10/18 19:25:28 by abied-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_dots_from_line(char *line, t_point **dots, int y)
 	while (points[x])
 	{
 		dots[y][x].z = ft_atoi(points[x]);
-		if (mod(dots[y][x].z > 15)) //TODO fix this, this does not work for negative altitude
+		if (mod(dots[y][x].z > 15))
 			dots[y][x].z = 15;
 		dots[y][x].x = x;
 		dots[y][x].y = y;
@@ -123,8 +123,8 @@ int	read_map(char *file_name, t_cache *d)
 	{
 		if (!line)
 			return (perror("Memory allocation failed"), clean(d->dots, d), -1);
-		if (check_line_length(line, d) == -1)
-			return (ft_putendl_fd("Invalid Map: Line length not constant", 2),
+		if (check_line_length(line, d) == -1 || d->width <= 1)
+			return (ft_putendl_fd("Invalid Map", 2),
 				free(line), clean(d->dots, d), -1);
 		if (get_dots_from_line(line, d->dots, y++) != d->width)
 			return (perror("Memory allocation failed"), clean(d->dots, d), -1);
