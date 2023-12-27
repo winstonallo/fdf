@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:43:04 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 16:46:35 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:20:16 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 
 # include "../libft/include/libft.h"
 
-# define ESCAPE 65307
-# define UP 65362
-# define DOWN 65364
-# define LEFT 65361
-# define RIGHT 65363
-# define ZOOM 65451
-# define DEZOOM 65453
-# define O 0x006F
-# define U 0x0075
-# define S 0x0073
-# define W 0x0077
-# define SPACE 0x0020
+# define ESCAPE 53
+# define UP 126
+# define DOWN 125
+# define LEFT 123
+# define RIGHT 124
+# define ZOOM 30
+# define DEZOOM 44
+# define O 31
+# define U 32
+# define S 1
+# define W 13
+# define SPACE 49
 
 typedef struct s_point
 {
