@@ -1,57 +1,48 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/06 18:42:13 by abied-ch          #+#    #+#              #
-#    Updated: 2023/10/18 11:51:59 by abied-ch         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = fdf
 
 OBJ_DIR = obj
 
-SRC_DIR = src
+SRC_DIR = src/
 
-SRCS = 	${SRC_DIR}/read.c \
-		${SRC_DIR}/draw.c \
-		${SRC_DIR}/fdf.c \
-		${SRC_DIR}/events.c \
-		${SRC_DIR}/cleanup.c \
-		${SRC_DIR}/errors.c \
-				
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+LIBFT_FLAGS = -L./libft -lft
 
-CC = clang-12
+FLAGS = -framework OpenGL -framework AppKit -I./minilibx-mac -L./minilibx-mac -lmlx
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+X11_FLAGS = -L/usr/X11/lib -lXext -lX11
 
-LDFLAGS = -Lminilibx-linux -L ./libft -lmlx -lXext -lX11 -lm -lft
+STANDARD = /
+
+SRCS = 	${SRC_DIR}fdf.c \
+		$(SRC_DIR)cleanup.c \
+		$(SRC_DIR)draw.c \
+		$(SRC_DIR)errors.c \
+		$(SRC_DIR)events.c \
+		$(SRC_DIR)read.c \
+
+OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)/%.o, $(SRCS))
+
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror -Iincludes -g
 
 RM = rm -rf
 
-.SILENT:
-
-all: $(OBJ_DIR) $(NAME) 
+all: $(OBJ_DIR) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_OBJS)
-	printf "Compiling libft..."
-	$(MAKE) -C ./libft --no-print-directory
-	printf "\r\rCompiling fdf.."
-	sleep 0.5
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_OBJS) -o $(NAME) $(LDFLAGS)
-	printf "\rCompiling completed.\n"
+	@$(MAKE) -C ./libft --no-print-directory
+	@$(MAKE) -C ./minilibx-mac --no-print-directory
+	$(CC) $(CFLAGS) $(LIBFT_FLAGS) $(OBJS) $(LIBFT_OBJS) -o $(NAME) $(FLAGS) $(X11_FLAGS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)/$(RAY_DIR)
+	mkdir -p $(OBJ_DIR)/$(MAP_DIR)
 
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: libft/src/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -59,7 +50,7 @@ clean:
 	$(RM) $(OBJ_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(TEST_NAME)
 
 re: fclean all
 

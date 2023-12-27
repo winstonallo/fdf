@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abied-ch <abied-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arthur <arthur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:15:21 by abied-ch          #+#    #+#             */
-/*   Updated: 2023/10/16 15:53:31 by abied-ch         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:15:10 by arthur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	do_shit(int key, t_cache *data)
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img.img);
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
 		clean(data->dots, data);
 		exit(0);
